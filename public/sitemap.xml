@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://scrapdeouf.com/</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://scrapdeouf.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scrapdeouf.com/en/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://scrapdeouf.com/es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://scrapdeouf.com/de/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://scrapdeouf.com/pt/" />
+  </url>
+
+  <!-- Scraping Produits -->
+  <url>
+    <loc>https://scrapdeouf.com/scraping-produits</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://scrapdeouf.com/fr/scraping-produits" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scrapdeouf.com/en/product-scraping" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://scrapdeouf.com/es/scraping-productos" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://scrapdeouf.com/de/produkt-scraping" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://scrapdeouf.com/pt/scraping-produtos" />
+  </url>
+
+  <!-- Scraping Avis Clients -->
+  <url>
+    <loc>https://scrapdeouf.com/scraping-avis-clients</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://scrapdeouf.com/fr/scraping-avis-clients" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scrapdeouf.com/en/reviews-scraping" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://scrapdeouf.com/es/scraping-resenas" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://scrapdeouf.com/de/bewertungen-scraping" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://scrapdeouf.com/pt/scraping-avaliacoes" />
+  </url>
+
+  <!-- Scraping Google Maps -->
+  <url>
+    <loc>https://scrapdeouf.com/scraping-google-maps</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://scrapdeouf.com/fr/scraping-google-maps" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scrapdeouf.com/en/google-maps-scraping" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://scrapdeouf.com/es/scraping-google-maps" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://scrapdeouf.com/de/google-maps-scraping" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://scrapdeouf.com/pt/scraping-google-maps" />
+  </url>
+
+  <!-- Tarifs -->
+  <url>
+    <loc>https://scrapdeouf.com/tarifs</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://scrapdeouf.com/fr/tarifs" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scrapdeouf.com/en/pricing" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://scrapdeouf.com/es/precios" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://scrapdeouf.com/de/preise" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://scrapdeouf.com/pt/precos" />
+  </url>
+
+  <!-- Blog -->
+  <url>
+    <loc>https://scrapdeouf.com/blog</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://scrapdeouf.com/fr/blog" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scrapdeouf.com/en/blog" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://scrapdeouf.com/es/blog" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://scrapdeouf.com/de/blog" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://scrapdeouf.com/pt/blog" />
+  </url>
+
+  <!-- Contact -->
+  <url>
+    <loc>https://scrapdeouf.com/contact</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://scrapdeouf.com/fr/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scrapdeouf.com/en/contact" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://scrapdeouf.com/es/contacto" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://scrapdeouf.com/de/kontakt" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://scrapdeouf.com/pt/contato" />
+  </url>
+
+</urlset>

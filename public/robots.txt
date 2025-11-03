@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://scrapdeouf.com/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Disallow admin or private areas (if any in the future)
+Disallow: /admin/
+Disallow: /api/private/

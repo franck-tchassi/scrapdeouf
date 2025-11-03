@@ -1,0 +1,179 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?         @unique
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  
+  Authenticator  Authenticator[]
+
+  
+  accounts       Account[]
+  sessions       Session[]
+
+  // Stripe
+  stripeCustomerId String?
+  subscriptions Subscription[] 
+  
+  extractions   Extraction[]
+
+  // Credit system
+  creditsUsed      Int      @default(0)
+  creditsLimit     Int      @default(0)
+  lastCreditReset  DateTime @default(now())
+
+  //onboarding
+  hasCompletedOnboarding Boolean @default(false)
+  companySize            String?
+  mainObjective          String?
+  mainUsage              String?
+  hasWebsite             Boolean?
+  websiteUrl             String?
+  needsCustomWebsite     Boolean?
+  scrapingPlatforms      String[]        @default([])
+  discoverySource        String?
+  
+  
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @id @map("_id")
+  userId               String  @db.ObjectId
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, credentialID])
+}
+
+
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id                   String           @id @default(auto()) @map("_id") @db.ObjectId
+  userId               String           @db.ObjectId
+  stripeSubscriptionId String           @unique 
+  plan                 SubscriptionPlan // Changed to use the enum
+  interval             String
+  status               String
+  createdAt            DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum SubscriptionPlan {
+  FREE
+  PRO
+  PREMIUM
+  ENTERPRISE
+}
+
+enum ExtractionTemplate {
+  google_maps
+  amazon
+  tripadvisor
+  airbnb
+  ebay
+}
+
+enum ExtractionStatus {
+  draft
+  running
+  completed
+  error
+  scheduled // Ajout du statut 'scheduled'
+}
+
+model Extraction {
+  id          String           @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String           @db.ObjectId
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  template    ExtractionTemplate // Utilisation de l'énumération ExtractionTemplate
+  status      ExtractionStatus @default(draft)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  // Champs spécifiques à Google Maps (ou autres templates)
+  searchTerm  String?
+  city        String?
+  country     String?
+  maxResults  Int?
+  enrichEmails Boolean?
+  enrichPhones Boolean?
+
+  // lien Google Maps
+  googleMapsUrl String?
+
+  // Champs spécifiques à Amazon
+  amazonUrl String?
+  amazonMaxResults Int?
+
+  durationMs        Int?
+  pagesVisited      Int?
+  successfulScrapes Int?
+  failedScrapes     Int?
+  proxyUsed         Boolean?
+  proxyHost         String?
+
+  // Champ pour stocker les résultats de l'extraction en JSON
+  resultsData String? @db.String
+  creditsConsumed Int? // New field to store credits consumed by this specific extraction
+
+  // Scheduling fields
+  isScheduled        Boolean            @default(false)
+  cronExpression     String?            // e.g., "0 * * * *" for every hour
+  nextRunAt          DateTime?          // Next scheduled run time
+  lastRunAt          DateTime?          // Last actual run time
+  scheduleJobId      String?            // BullMQ repeatable job ID (le @unique a été retiré)
+}
