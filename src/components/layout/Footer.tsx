@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { EnvelopeIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
+import { Mail as EnvelopeIcon, Send as PaperAirplaneIcon } from 'lucide-react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
