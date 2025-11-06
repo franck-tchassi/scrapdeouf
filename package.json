@@ -8,7 +8,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "npx playwright install chromium --with-deps",
+     "postinstall": "npx playwright install chromium",
     "dev:worker": "node --loader ts-node/esm src/worker.ts",
     "start:worker": "node --loader ts-node/esm src/worker.ts"
   },
