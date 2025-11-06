@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  worker:
+    build:
+      context: .
+      dockerfile: worker.Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - redis
+    environment:
+      # Ensure you set DATABASE_URL in your environment or .env file
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=redis://redis:6379
+      - NODE_ENV=production
+      # Optional: allow direct runs on non-serverless envs
+      - ALLOW_DIRECT_SCRAPE=${ALLOW_DIRECT_SCRAPE:-0}
+    # If you want to mount source for live editing (dev), uncomment below
+    # volumes:
+    #   - ./:/app

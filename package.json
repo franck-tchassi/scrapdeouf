@@ -8,7 +8,9 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "dev:worker": "node --loader ts-node/esm src/worker.ts"
+    "postinstall": "npx playwright install chromium --with-deps",
+    "dev:worker": "node --loader ts-node/esm src/worker.ts",
+    "start:worker": "node --loader ts-node/esm src/worker.ts"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
@@ -69,7 +71,7 @@
     "node-cron": "^4.2.1",
     "nodemailer": "^6.10.1",
     "playwright": "^1.56.0",
-    "playwright-chromium": "^1.56.0",
+    "playwright-chromium": "^1.56.1",
     "playwright-extra": "^4.3.6",
     "playwright-extra-plugin-stealth": "^0.0.1",
     "puppeteer": "^24.24.0",

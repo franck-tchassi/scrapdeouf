@@ -45,6 +45,21 @@ export async function POST(
     const { searchParams } = new URL(req.url);
     const directRun = searchParams.get('directRun') === 'true';
 
+    // Protection: empêcher l'exécution directe (qui lance Playwright/Chromium)
+    // dans des environnements serverless comme Vercel où les navigateurs
+    // natifs ne sont pas disponibles. Sur Vercel, les binaires Playwright
+    // ne seront pas installés et la tentative de `chromium.launch()`
+    // provoquera une erreur (cf. logs). Si vous déployez un worker
+    // autonome (Docker / Render / Railway), vous pouvez autoriser les
+    // runs directs ou utiliser la queue.
+    const isVercel = !!process.env.VERCEL || !!process.env.VERCEL_ENV;
+    if (directRun && isVercel) {
+      console.log('[RUN_SCRAPE] Direct run requested on Vercel — blocked to avoid Playwright failure. Use queued runs.');
+      return NextResponse.json({
+        error: 'Direct runs are not supported on Vercel (no browser binaries). Please use queued runs or deploy a dedicated worker.'
+      }, { status: 501 });
+    }
+
     // 1. Récupérer les détails de l'extraction et de l'utilisateur
     let userWithSubscriptions = await prisma.user.findUnique({
       where: { id: userId },
@@ -105,15 +120,15 @@ export async function POST(
         });
         currentCreditsLimitFinal = updatedUser.creditsLimit;
       }
-    } else { 
+    } else {
       // No active subscription - VERSION CORRECTE
       console.log(`[RUN_SCRAPE] User ${userId}: FREE user - Current credits: ${userWithSubscriptions.creditsUsed}/${userWithSubscriptions.creditsLimit}`);
-      
+
       // ⚠️ CORRECTION CRITIQUE : NE JAMAIS RÉINITIALISER LES CRÉDITS FREE USERS !
       currentCreditsUsed = userWithSubscriptions.creditsUsed;
       currentCreditsLimitFinal = userWithSubscriptions.creditsLimit;
       currentLastCreditReset = userWithSubscriptions.lastCreditReset;
-      
+
       // Vérifier uniquement si la limite est incorrecte
       if (userWithSubscriptions.creditsLimit !== CREDIT_LIMITS.FREE) {
         console.log(`[RUN_SCRAPE] User ${userId}: Fixing credits limit to FREE plan`);
@@ -158,7 +173,7 @@ export async function POST(
     if (currentCreditsUsed + estimatedCreditsNeeded > currentCreditsLimitFinal) {
       console.log(`[RUN_SCRAPE] User ${userId}: Insufficient credits. Needed: ${estimatedCreditsNeeded}, Available: ${currentCreditsLimitFinal - currentCreditsUsed}.`);
       return NextResponse.json(
-        { 
+        {
           error: `Crédits insuffisants. Vous avez besoin de ${estimatedCreditsNeeded} crédits mais il ne vous en reste que ${currentCreditsLimitFinal - currentCreditsUsed}.`,
         },
         { status: 403 }
@@ -200,16 +215,16 @@ export async function POST(
 
       console.log(`[RUN_SCRAPE] Job ${job.id} added to queue for extraction ${extraction.id}.`);
 
-      return NextResponse.json({ 
+      return NextResponse.json({
         message: 'Extraction ajoutée à la file d\'attente. Les résultats seront disponibles bientôt.',
         jobId: job.id,
         estimatedCreditsNeeded: estimatedCreditsNeeded,
       }, { status: 202 });
     }
-    
+
   } catch (error: any) {
     console.error('[RUN_SCRAPE] Error in run-scrape:', error);
-    
+
     try {
       await prisma.extraction.update({
         where: { id: extractionId },
@@ -221,8 +236,8 @@ export async function POST(
     } catch (dbError) {
       console.error('[RUN_SCRAPE] Error updating extraction status to error:', dbError);
     }
-    
-    return NextResponse.json({ 
+
+    return NextResponse.json({
       error: error.message || 'Internal server error',
     }, { status: 500 });
   }
