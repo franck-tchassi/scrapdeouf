@@ -1,15 +1,21 @@
+//(protedid)/dashboard/subscriptions/page.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
-import FAQSection from "@/components/layout/FAQSection";
 import { useRouter } from "next/navigation";
 import { CheckIcon } from '@heroicons/react/24/solid'
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
+import { plans as EXTERNAL_PLANS } from '@/lib/plans'
+// cast to any[] to avoid strict typing issues when mapping external data
+const RAW_PLANS = EXTERNAL_PLANS as any[]
 
 type IntervalType = "monthly" | "yearly";
 
-const PLANS = [
+// Base plans metadata (descriptions, features, popularity) — les prix sont fournis
+// par `src/lib/plans.ts` (importé ci-dessus). Cela évite de dupliquer les liens
+// et priceId dans deux fichiers.
+const BASE_PLANS = [
   {
     id: "pro",
     name: "Pro",
@@ -30,18 +36,6 @@ const PLANS = [
       "Actualisation mensuelle des crédits",
       "Support technique par email"
     ],
-    prices: {
-      monthly: {
-        display: "35€",
-        stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_MONTHLY!,
-        stripeLink: "https://buy.stripe.com/test_3cIfZgdlC81wcTV5udds400"
-      },
-      yearly: {
-        display: "24.5€",
-        stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_YEARLY!,
-        stripeLink: "https://buy.stripe.com/test_8x24gychya9EcTVbSBds402"
-      },
-    },
     popular: false,
   },
   {
@@ -69,18 +63,6 @@ const PLANS = [
       "Actualisation mensuelle des crédits",
       "Support prioritaire par chat"
     ],
-    prices: {
-      monthly: {
-        display: "59€",
-        stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_PREMIUM_MONTHLY!,
-        stripeLink: "https://buy.stripe.com/test_3cIaEW1CUdlQ5rt5udds403"
-      },
-      yearly: {
-        display: "42€",
-        stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_PREMIUM_YEARLY!,
-        stripeLink: "https://buy.stripe.com/test_7sY7sK1CU6Xs2fh6yhds404"
-      },
-    },
     popular: true,
   },
   {
@@ -109,21 +91,53 @@ const PLANS = [
       "Responsable de compte dédié",
       "Support prioritaire 24/7"
     ],
-    prices: {
-      monthly: {
-        display: "299€",
-        stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_MONTHLY!,
-        stripeLink: "https://buy.stripe.com/test_6oUeVcftK6Xsf2309Tds405"
-      },
-      yearly: {
-        display: "210€",
-        stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_YEARLY!,
-        stripeLink: "https://buy.stripe.com/test_cNicN4gxO81w6vxe0Jds406"
-      },
-    },
     popular: false,
   },
 ];
+
+// Merge external plans (from src/lib/plans.ts) with the local PLANS definition.
+// The external file contains entries for monthly or yearly prices (separate items).
+// We map those entries onto the existing PLANS structure by matching on name.
+// Construire PRICED_PLANS en mergant la metadata de BASE_PLANS avec les prix
+// fournis dans `RAW_PLANS` (src/lib/plans.ts).
+// NOTE: certains noms de plans dans `plans.ts` sont en anglais ("Pro Plan",
+// "Enterprise Plan") tandis que les titres de la page sont en français
+// ("Entreprise"). On utilise une table d'alias pour matcher correctement.
+const NAME_MATCHERS: Record<string, string[]> = {
+  pro: ['pro plan', 'pro'],
+  premium: ['premium plan', 'premium'],
+  enterprise: ['enterprise plan', 'entreprise', 'enterprise'],
+}
+
+const PRICED_PLANS = BASE_PLANS.map((plan) => {
+  const keys = NAME_MATCHERS[plan.id] || [plan.name.toLowerCase(), String(plan.name).toLowerCase()]
+
+  const monthlyRaw = RAW_PLANS.find((p) =>
+    keys.some((k) => String(p.name).toLowerCase().includes(k)) && String(p.duration).toLowerCase().includes('month')
+  )
+
+  const yearlyRaw = RAW_PLANS.find((p) =>
+    keys.some((k) => String(p.name).toLowerCase().includes(k)) && String(p.duration).toLowerCase().includes('year')
+  )
+
+  const prices: any = {
+    monthly: {
+      display: monthlyRaw ? `${monthlyRaw.price}€` : 'Sur mesure',
+      stripePriceId: monthlyRaw ? monthlyRaw.priceId : undefined,
+      stripeLink: monthlyRaw ? monthlyRaw.link : undefined,
+    },
+    yearly: {
+      display: yearlyRaw ? `${parseFloat((yearlyRaw.price / 12).toFixed(2))}€` : (monthlyRaw ? `${parseFloat((monthlyRaw.price * 0.7).toFixed(2))}€` : 'Sur mesure'),
+      stripePriceId: yearlyRaw ? yearlyRaw.priceId : undefined,
+      stripeLink: yearlyRaw ? yearlyRaw.link : undefined,
+    }
+  }
+
+  return {
+    ...plan,
+    prices,
+  }
+})
 
 const COMPARISON = [
   {
@@ -278,8 +292,8 @@ export default function SubscriptionsPage() {
 
     setSelectedPlanId(planId);
 
-    // Trouver le plan sélectionné
-    const selectedPlan = PLANS.find(plan => plan.id === planId);
+    // Trouver le plan sélectionné (on utilise maintenant PRICED_PLANS)
+    const selectedPlan = PRICED_PLANS.find(plan => plan.id === planId);
     if (selectedPlan && selectedPlan.prices) {
       // Rediriger vers le lien Stripe correspondant (si fourni)
       const stripeLink = selectedPlan.prices[billingCycle].stripeLink;
@@ -299,13 +313,17 @@ export default function SubscriptionsPage() {
   };
 
   // Calculer l'économie pour chaque plan
-  const calculateSavings = (plan: typeof PLANS[0]) => {
-    const monthlyPrice = parseFloat(plan.prices.monthly.display.replace('€', '').replace(',', '.'));
-    const yearlyPrice = parseFloat(plan.prices.yearly.display.replace('€', '').replace(',', '.'));
-    const yearlyCost = yearlyPrice * 12;
-    const monthlyCost = monthlyPrice * 12;
-    const savings = ((monthlyCost - yearlyCost) / monthlyCost) * 100;
-    return Math.round(savings);
+  const calculateSavings = (plan: any) => {
+    try {
+      const monthlyPrice = parseFloat(String(plan.prices.monthly.display).replace('€', '').replace(',', '.')) || 0;
+      const yearlyPrice = parseFloat(String(plan.prices.yearly.display).replace('€', '').replace(',', '.')) || 0;
+      const yearlyCost = yearlyPrice * 12;
+      const monthlyCost = monthlyPrice * 12;
+      const savings = monthlyCost ? ((monthlyCost - yearlyCost) / monthlyCost) * 100 : 0;
+      return Math.round(savings || 0);
+    } catch (e) {
+      return 0;
+    }
   };
 
   return (
@@ -364,7 +382,7 @@ export default function SubscriptionsPage() {
       </div>
 
       <div className="mx-auto mt-16 grid  max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-3">
-        {PLANS.map((plan, planIdx) => (
+        {PRICED_PLANS.map((plan, planIdx) => (
           <div
             key={plan.id}
             className={classNames(

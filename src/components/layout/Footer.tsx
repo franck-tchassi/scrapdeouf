@@ -223,7 +223,7 @@ export default function Footer() {
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-6 py-16 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-12">
-          
+
           {/* Section 1 : Essentiels */}
           <div className="text-center lg:text-left">
             <h3 className="text-lg font-semibold mb-6 text-white">Essentiels</h3>
@@ -270,10 +270,10 @@ export default function Footer() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-2xl font-bold bg-gradient-to-r from-white to-indigo-200 bg-clip-text text-transparent">Scrapdeouf</span>
-                   
+
                 </div>
               </div>
-              
+
               <p className="text-gray-400 text-base mb-6 max-w-md text-center lg:text-left">
                 Votre partenaire pour des solutions digitales innovantes et performantes.
               </p>
@@ -325,7 +325,7 @@ export default function Footer() {
                   width={180}
                   height={54}
                   className="h-24 w-auto  object-contain"
-                  priority 
+                  priority
                   loading="eager"
                 />
               </div>
@@ -342,11 +342,11 @@ export default function Footer() {
             <p className="text-gray-400 text-sm text-center lg:text-left">
               © 2025 Scrapdeouf. Tous droits réservés.
             </p>
-            
+
             <div className="flex space-x-8 text-sm text-gray-400">
               <a href="/cgu" className="hover:text-white transition-colors duration-200">CGU</a>
               <a href="/confidentialite" className="hover:text-white transition-colors duration-200">Confidentialité</a>
-             
+
             </div>
           </div>
         </div>

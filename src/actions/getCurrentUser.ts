@@ -1,5 +1,6 @@
 //actions/getCurrentUser.ts
 
+// actions/getCurrentUser.ts
 
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/authOptions";
@@ -10,9 +11,9 @@ import { SubscriptionPlan } from '@prisma/client';
 
 const CREDIT_LIMITS: Record<string, number> = {
   FREE: 100,
-  PRO: 10000,
-  PREMIUM: 20000,
-  ENTERPRISE: 80000,
+  PRO: 5000,
+  PREMIUM: 10000,
+  ENTERPRISE: 40000,
 };
 
 export async function getCurrentUser(): Promise<SafeUser | null> {
@@ -65,6 +66,7 @@ export async function getCurrentUser(): Promise<SafeUser | null> {
       }
 
       if (isPast(nextResetDate) || !user.lastCreditReset) {
+        console.log(`[GET_CURRENT_USER] Resetting credits for paid user ${user.id} (plan: ${activeSubscription.plan})`);
         user = await prisma.user.update({
           where: { id: user.id },
           data: {
@@ -83,7 +85,9 @@ export async function getCurrentUser(): Promise<SafeUser | null> {
             },
           },
         });
+        console.log(`[GET_CURRENT_USER] Paid user ${user.id} credits reset to: ${user.creditsUsed}/${user.creditsLimit}`);
       } else if (user.creditsLimit !== currentCreditsLimit) {
+        console.log(`[GET_CURRENT_USER] Updating credits limit for paid user ${user.id} to: ${currentCreditsLimit}`);
         user = await prisma.user.update({
           where: { id: user.id },
           data: {
@@ -101,16 +105,29 @@ export async function getCurrentUser(): Promise<SafeUser | null> {
           },
         });
       }
-    } else { // No active subscription
-      if (user.creditsLimit !== CREDIT_LIMITS.FREE || user.creditsUsed > 0 || !user.lastCreditReset) {
+    } else { // No active subscription - CORRIGÉ
+      const needsConfigUpdate = user.creditsLimit !== CREDIT_LIMITS.FREE || !user.lastCreditReset;
+
+      if (needsConfigUpdate) {
+        console.log(`[GET_CURRENT_USER] Configuring FREE user ${user.id}`);
+        
+        const updateData: any = {
+          creditsLimit: CREDIT_LIMITS.FREE,
+        };
+        
+        // Initialiser lastCreditReset seulement s'il n'existe pas
+        if (!user.lastCreditReset) {
+          updateData.lastCreditReset = new Date();
+          console.log(`[GET_CURRENT_USER] Initializing lastCreditReset for user ${user.id}`);
+        }
+        
+        // ⚠️ CORRECTION CRITIQUE : NE JAMAIS modifier creditsUsed dans getCurrentUser !
+        // ⚠️ NE JAMAIS réinitialiser creditsUsed pour les FREE users existants !
+        
         user = await prisma.user.update({
           where: { id: user.id },
-          data: {
-            creditsUsed: 0,
-            creditsLimit: CREDIT_LIMITS.FREE,
-            lastCreditReset: new Date(),
-          },
-          include: { // Inclure les relations après la mise à jour
+          data: updateData,
+          include: {
             subscriptions: {
               where: { status: 'active' },
               orderBy: { createdAt: 'desc' },
@@ -121,6 +138,10 @@ export async function getCurrentUser(): Promise<SafeUser | null> {
             },
           },
         });
+        
+        console.log(`[GET_CURRENT_USER] FREE user ${user.id} configured: ${user.creditsUsed}/${user.creditsLimit}`);
+      } else {
+        console.log(`[GET_CURRENT_USER] FREE user ${user.id} config OK: ${user.creditsUsed}/${user.creditsLimit}`);
       }
     }
 

@@ -58,28 +58,64 @@ export default function NewExtractionPage() {
   // Charger les extractions au montage du composant
   useEffect(() => {
     const fetchExtractions = async () => {
-      try {
-        const response = await fetch("/api/extractions");
-        if (!response.ok) {
-          throw new Error("Failed to fetch extractions");
-        }
-        const data: PrismaExtraction[] = await response.json();
+  try {
+    setIsLoadingExtractions(true);
+    console.log('[NewExtractionPage] Début du fetch des extractions');
+    
+    const response = await fetch("/api/extractions", {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
 
-        // Ajouter un resultsCount simulé et s'assurer que les dates sont des objets Date
-        const processedData: ClientExtraction[] = data.map(ext => ({
-          ...ext,
-          createdAt: new Date(ext.createdAt),
-          updatedAt: new Date(ext.updatedAt),
-          resultsCount: ext.status === "completed" ? (ext.resultsData ? JSON.parse(ext.resultsData).length : 0) : 0,
-        }));
-        setExtractions(processedData);
-      } catch (error) {
-        console.error("Error fetching extractions:", error);
-        toast.error("Échec du chargement des extractions.");
-      } finally {
-        setIsLoadingExtractions(false);
+    console.log('[NewExtractionPage] Response status:', response.status);
+    console.log('[NewExtractionPage] Response ok:', response.ok);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('[NewExtractionPage] Erreur HTTP:', response.status, errorText);
+      
+      let errorMessage = `Erreur ${response.status} lors du chargement des extractions`;
+      try {
+        const errorData = JSON.parse(errorText);
+        errorMessage = errorData.error || errorData.details || errorMessage;
+      } catch {
+        errorMessage = errorText || errorMessage;
       }
-    };
+      
+      throw new Error(errorMessage);
+    }
+
+    const data = await response.json();
+    console.log('[NewExtractionPage] Données reçues:', data);
+
+    // Vérifier que data est un tableau
+    if (!Array.isArray(data)) {
+      console.error('[NewExtractionPage] Les données ne sont pas un tableau:', data);
+      throw new Error('Format de données invalide');
+    }
+
+    const processedData: ClientExtraction[] = data.map(ext => ({
+      ...ext,
+      createdAt: new Date(ext.createdAt),
+      updatedAt: new Date(ext.updatedAt),
+      resultsCount: ext.status === "completed" ? (ext.resultsData ? JSON.parse(ext.resultsData).length : 0) : 0,
+    }));
+    
+    setExtractions(processedData);
+    console.log('[NewExtractionPage] Extractions traitées:', processedData.length);
+    
+  } catch (error) {
+    console.error("[NewExtractionPage] Erreur détaillée:", error);
+    const msg = error instanceof Error ? error.message : 'Échec du chargement des extractions.';
+    toast.error(msg);
+  } finally {
+    setIsLoadingExtractions(false);
+  }
+};
     fetchExtractions();
   }, []);
 

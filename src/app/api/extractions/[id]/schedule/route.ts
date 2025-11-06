@@ -1,3 +1,4 @@
+// src/app/api/extractions/[id]/schedule/route.ts
 
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';

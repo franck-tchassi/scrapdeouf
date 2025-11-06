@@ -1,3 +1,5 @@
+//lib/scrape-logic.ts
+
 import { prisma } from './prismadb';
 import { scrapeGoogleMapsSearch } from './google-maps-scraper';
 import { scrapeAmazonProducts } from './amazon-scraper';
@@ -10,9 +12,9 @@ import { ExtractionStatus } from '@prisma/client';
 // Définir les limites de crédits par plan
 const CREDIT_LIMITS: Record<string, number> = {
   FREE: 100,
-  PRO: 10000,
-  PREMIUM: 20000,
-  ENTERPRISE: 80000,
+  PRO: 5000,
+  PREMIUM: 10000,
+  ENTERPRISE: 40000,
 };
 
 // Coûts des crédits par action
@@ -98,20 +100,47 @@ export async function executeScrapeLogic(jobData: ScrapeJobData) {
         });
         currentCreditsLimitFinal = updatedUser.creditsLimit;
       }
-    } else { // No active subscription
-      if (userWithSubscriptions.creditsLimit !== CREDIT_LIMITS.FREE || userWithSubscriptions.creditsUsed > 0 || !userWithSubscriptions.lastCreditReset) {
-        console.log(`[SCRAPE_LOGIC] User ${userId}: No active subscription. Forcing FREE plan defaults.`);
+    } else { 
+      // Gestion des utilisateurs FREE - CORRIGÉE
+      console.log(`[SCRAPE_LOGIC] User ${userId}: Processing FREE user`);
+      
+      // Vérifier si la configuration FREE est correcte
+      const needsConfigUpdate = 
+        userWithSubscriptions.creditsLimit !== CREDIT_LIMITS.FREE || 
+        !userWithSubscriptions.lastCreditReset;
+
+      if (needsConfigUpdate) {
+        console.log(`[SCRAPE_LOGIC] User ${userId}: FREE plan configuration needed`);
+        
+        const updateData: any = {
+          creditsLimit: CREDIT_LIMITS.FREE,
+          lastCreditReset: new Date(),
+        };
+        
+        // ⚠️ CORRECTION CRITIQUE : Ne réinitialiser creditsUsed QUE si lastCreditReset n'existe pas
+        if (!userWithSubscriptions.lastCreditReset) {
+          updateData.creditsUsed = 0;
+          console.log(`[SCRAPE_LOGIC] First-time setup - initializing creditsUsed to 0`);
+        }
+        // Sinon, creditsUsed conserve sa valeur actuelle
+        
         const updatedUser = await prisma.user.update({
           where: { id: userId },
-          data: {
-            creditsUsed: 0,
-            creditsLimit: CREDIT_LIMITS.FREE,
-            lastCreditReset: new Date(),
-          },
+          data: updateData,
         });
+        
         currentCreditsUsed = updatedUser.creditsUsed;
         currentCreditsLimitFinal = updatedUser.creditsLimit;
         currentLastCreditReset = updatedUser.lastCreditReset;
+        
+        console.log(`[SCRAPE_LOGIC] User ${userId}: FREE config updated. Credits: ${currentCreditsUsed}/${currentCreditsLimitFinal}`);
+      } else {
+        // Configuration déjà correcte, utiliser les valeurs existantes
+        currentCreditsUsed = userWithSubscriptions.creditsUsed;
+        currentCreditsLimitFinal = userWithSubscriptions.creditsLimit;
+        currentLastCreditReset = userWithSubscriptions.lastCreditReset;
+        
+        console.log(`[SCRAPE_LOGIC] User ${userId}: FREE config OK. Credits: ${currentCreditsUsed}/${currentCreditsLimitFinal}`);
       }
     }
 
@@ -186,18 +215,44 @@ export async function executeScrapeLogic(jobData: ScrapeJobData) {
     finalProxyHost = scrapeResult.proxyHost;
     finalCreditsConsumed = creditsNeeded;
 
-    if (currentCreditsUsed + creditsNeeded > currentCreditsLimitFinal) {
-      throw new Error(`Insufficient credits. Needed: ${creditsNeeded}, Available: ${currentCreditsLimitFinal - currentCreditsUsed}.`);
+    console.log(`[SCRAPE_LOGIC] Credits calculation: ${creditsNeeded} needed, user currently has ${currentCreditsUsed}/${currentCreditsLimitFinal}`);
+
+    // ⚠️ CORRECTION CRITIQUE : Vérifier l'état actuel dans la base AVANT mise à jour
+    const currentUserState = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { creditsUsed: true, creditsLimit: true }
+    });
+
+    console.log(`[SCRAPE_LOGIC] 🚨 CRITICAL - Database state before update: ${currentUserState?.creditsUsed}/${currentUserState?.creditsLimit}`);
+
+    if (!currentUserState) {
+      throw new Error('User not found in database during credit update');
     }
 
-    await prisma.user.update({
+    if (currentUserState.creditsUsed + finalCreditsConsumed > currentUserState.creditsLimit) {
+      throw new Error(`Insufficient credits after verification. Needed: ${finalCreditsConsumed}, Available: ${currentUserState.creditsLimit - currentUserState.creditsUsed}.`);
+    }
+
+    // Mettre à jour avec la valeur ACTUELLE de la base
+    const updateResult = await prisma.user.update({
       where: { id: userId },
       data: {
-        creditsUsed: currentCreditsUsed + finalCreditsConsumed,
+        creditsUsed: {
+          increment: finalCreditsConsumed
+        }
       },
     });
 
-    console.log(`[SCRAPE_LOGIC] User ${userId}: Credits deducted. New usage: ${currentCreditsUsed + finalCreditsConsumed}/${currentCreditsLimitFinal}.`);
+    console.log(`[SCRAPE_LOGIC] 🚨 CRITICAL - Update completed: ${updateResult.creditsUsed}/${updateResult.creditsLimit}`);
+
+    // Vérification finale
+    const finalCheck = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { creditsUsed: true, creditsLimit: true }
+    });
+    console.log(`[SCRAPE_LOGIC] 🚨 CRITICAL - Final database check: ${finalCheck?.creditsUsed}/${finalCheck?.creditsLimit}`);
+
+    console.log(`[SCRAPE_LOGIC] User ${userId}: Credits deducted. New usage: ${updateResult.creditsUsed}/${updateResult.creditsLimit}`);
     console.log(`[SCRAPE_LOGIC] Extraction ${extractionId} completed successfully with ${scrapeResult.results.length} results`);
 
     let nextRunAtDate: Date | null = extraction.nextRunAt;
@@ -221,6 +276,7 @@ export async function executeScrapeLogic(jobData: ScrapeJobData) {
         nextRunAt: nextRunAtDate,
       },
     });
+
     return {
       success: true,
       results: scrapeResult.results,

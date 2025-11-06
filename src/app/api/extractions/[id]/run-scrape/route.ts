@@ -7,15 +7,15 @@ import { prisma } from '@/lib/prismadb';
 import { addMonths, addYears, isPast } from 'date-fns';
 import { SubscriptionPlan } from '@prisma/client';
 import { scrapeQueue, ScrapeJobData } from '@/lib/queue';
-import { executeScrapeLogic } from '@/lib/scrape-logic'; // Import de la nouvelle fonction
-import { getRandomProxy } from '@/lib/google-maps-scraper'; // Pour le proxy en exécution directe
+import { executeScrapeLogic } from '@/lib/scrape-logic';
+import { getRandomProxy } from '@/lib/google-maps-scraper';
 
 // Définir les limites de crédits par plan
 const CREDIT_LIMITS: Record<string, number> = {
   FREE: 100,
-  PRO: 10000,
-  PREMIUM: 20000,
-  ENTERPRISE: 80000,
+  PRO: 5000,
+  PREMIUM: 10000,
+  ENTERPRISE: 40000,
 };
 
 // Coûts des crédits par action
@@ -29,9 +29,9 @@ const CREDIT_COSTS = {
 
 export async function POST(
   req: Request,
-  { params }: { params: Promise<{ id: string }> } // Utilisation de Promise pour params
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id: extractionId } = await params; // Await params ici
+  const { id: extractionId } = await params;
   let estimatedCreditsNeeded = 0;
 
   try {
@@ -43,7 +43,7 @@ export async function POST(
 
     const userId = session.user.id;
     const { searchParams } = new URL(req.url);
-    const directRun = searchParams.get('directRun') === 'true'; // Nouveau paramètre pour l'exécution directe
+    const directRun = searchParams.get('directRun') === 'true';
 
     // 1. Récupérer les détails de l'extraction et de l'utilisateur
     let userWithSubscriptions = await prisma.user.findUnique({
@@ -105,20 +105,29 @@ export async function POST(
         });
         currentCreditsLimitFinal = updatedUser.creditsLimit;
       }
-    } else { // No active subscription
-      if (userWithSubscriptions.creditsLimit !== CREDIT_LIMITS.FREE || userWithSubscriptions.creditsUsed > 0 || !userWithSubscriptions.lastCreditReset) {
-        console.log(`[RUN_SCRAPE] User ${userId}: No active subscription. Forcing FREE plan defaults.`);
+    } else { 
+      // No active subscription - VERSION CORRECTE
+      console.log(`[RUN_SCRAPE] User ${userId}: FREE user - Current credits: ${userWithSubscriptions.creditsUsed}/${userWithSubscriptions.creditsLimit}`);
+      
+      // ⚠️ CORRECTION CRITIQUE : NE JAMAIS RÉINITIALISER LES CRÉDITS FREE USERS !
+      currentCreditsUsed = userWithSubscriptions.creditsUsed;
+      currentCreditsLimitFinal = userWithSubscriptions.creditsLimit;
+      currentLastCreditReset = userWithSubscriptions.lastCreditReset;
+      
+      // Vérifier uniquement si la limite est incorrecte
+      if (userWithSubscriptions.creditsLimit !== CREDIT_LIMITS.FREE) {
+        console.log(`[RUN_SCRAPE] User ${userId}: Fixing credits limit to FREE plan`);
         const updatedUser = await prisma.user.update({
           where: { id: userId },
           data: {
-            creditsUsed: 0,
             creditsLimit: CREDIT_LIMITS.FREE,
-            lastCreditReset: new Date(),
+            // ⚠️ NE PAS modifier creditsUsed - garder la valeur existante
           },
         });
-        currentCreditsUsed = updatedUser.creditsUsed;
         currentCreditsLimitFinal = updatedUser.creditsLimit;
-        currentLastCreditReset = updatedUser.lastCreditReset;
+        console.log(`[RUN_SCRAPE] Credits limit fixed. Now: ${currentCreditsUsed}/${currentCreditsLimitFinal}`);
+      } else {
+        console.log(`[RUN_SCRAPE] FREE user configuration OK. Credits: ${currentCreditsUsed}/${currentCreditsLimitFinal}`);
       }
     }
 
@@ -168,12 +177,11 @@ export async function POST(
       amazonUrl: extraction.amazonUrl || undefined,
       amazonMaxResults: extraction.amazonMaxResults || undefined,
       isScheduledRun: false,
-      proxyConfig: getRandomProxy(), // Sélectionner un proxy pour le job
+      proxyConfig: getRandomProxy(),
     };
 
     if (directRun) {
       console.log(`[RUN_SCRAPE] Executing extraction ${extraction.id} directly.`);
-      // Exécuter la logique de scraping directement
       const result = await executeScrapeLogic(jobData);
       return NextResponse.json({
         message: 'Extraction directe terminée avec succès.',
@@ -183,13 +191,11 @@ export async function POST(
       }, { status: 200 });
     } else {
       console.log(`[RUN_SCRAPE] Adding extraction ${extraction.id} to queue.`);
-      // Mettre à jour le statut de l'extraction à 'running' avant d'ajouter à la queue
       await prisma.extraction.update({
         where: { id: extraction.id },
         data: { status: 'running', lastRunAt: new Date() },
       });
 
-      // Ajouter le job à la file d'attente
       const job = await scrapeQueue.add(`manual-scrape-${extraction.id}-${Date.now()}`, jobData);
 
       console.log(`[RUN_SCRAPE] Job ${job.id} added to queue for extraction ${extraction.id}.`);
@@ -204,7 +210,6 @@ export async function POST(
   } catch (error: any) {
     console.error('[RUN_SCRAPE] Error in run-scrape:', error);
     
-    // En cas d'erreur avant l'ajout à la queue, le statut reste inchangé ou est mis à 'error'
     try {
       await prisma.extraction.update({
         where: { id: extractionId },

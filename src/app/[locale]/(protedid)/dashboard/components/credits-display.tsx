@@ -38,9 +38,9 @@ export function CreditsDisplay() {
 
         // Check if user is blocked due to insufficient credits
         if (data.creditsLimit > 0 && data.creditsUsed >= data.creditsLimit) {
-          if (!pathname.includes("/subscribe")) { // Avoid redirect loop if already on subscribe page
+          if (!pathname.includes("/dashboard/subscriptions")) { // Avoid redirect loop if already on subscribe page
             toast.error("Vous avez atteint votre limite de crédits. Veuillez mettre à niveau votre plan.");
-            router.push("/fr/subscribe");
+            router.push("/dashboard/subscriptions");
           }
         } else if (data.creditsLimit === 0 && data.plan === 'FREE') {
           // If on FREE plan and creditsLimit is 0, and they try to use features
