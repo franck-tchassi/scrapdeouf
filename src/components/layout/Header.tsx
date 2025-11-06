@@ -70,23 +70,23 @@ export default function Header() {
   return (
     <header className={cn(
       "bg-gray-900/95 backdrop-blur-sm fixed top-4 left-1/2 transform -translate-x-1/2 w-[95vw] max-w-7xl z-50 rounded-2xl border transition-all duration-300 shadow-2xl",
-      scrolled 
-        ? "border-gray-600/50 shadow-xl scale-105" 
+      scrolled
+        ? "border-gray-600/50 shadow-xl scale-105"
         : "border-gray-700/50 shadow-2xl scale-100"
     )}>
       {/* Effet de brillance subtile */}
       <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 via-purple-500/5 to-pink-500/5 rounded-2xl pointer-events-none" />
-      
+
       {/* Effet de bordure animée */}
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20 opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-      
+
       <nav aria-label="Global" className="relative z-10">
         <div className="mx-auto px-6 py-3">
           <div className="flex items-center justify-between">
             {/* Logo amélioré */}
             <div className="flex-shrink-0 flex items-center">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="flex items-center group transition-all duration-300 hover:scale-105"
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -101,8 +101,8 @@ export default function Header() {
                       priority
                     />
                   </div>
-                  {/* Effet de halo animé */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/30 to-purple-600/30 rounded-xl blur-sm group-hover:blur-md transition-all duration-500" />
+                  {/* Effet de halo animé (masqué en mobile pour laisser le gradient visible) */}
+                  <div className="hidden sm:block absolute inset-0 bg-gradient-to-br from-indigo-500/30 to-purple-600/30 rounded-xl blur-sm group-hover:blur-md transition-all duration-500" />
                 </div>
                 <div className="ml-3 flex flex-col">
                   <span className="text-white text-xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
@@ -114,29 +114,29 @@ export default function Header() {
 
             {/* Navigation centrale améliorée  */}
             <div className="hidden lg:flex lg:items-center lg:justify-center lg:flex-1 lg:gap-4 lg:mx-8">
-              
-              <Link 
-                href="/apropos" 
+
+              <Link
+                href="/apropos"
                 className="text-sm font-medium text-gray-300 hover:text-white transition-all duration-300 hover:bg-white/5 rounded-xl px-2 py-2.5 border border-transparent hover:border-white/10"
               >
                 À propos
               </Link>
 
-              <Link 
-                href="/pricing" 
+              <Link
+                href="/pricing"
                 className="text-sm font-medium text-gray-300 hover:text-white transition-all duration-300 hover:bg-white/5 rounded-xl px-2 py-2.5 border border-transparent hover:border-white/10"
               >
                 Tarifs
               </Link>
 
-              <Link 
-                href="/blog" 
+              <Link
+                href="/blog"
                 className="text-sm font-medium text-gray-300 hover:text-white transition-all duration-300 hover:bg-white/5 rounded-xl px-2 py-2.5 border border-transparent hover:border-white/10"
               >
                 Blog
               </Link>
 
-              
+
             </div>
 
             {/* Actions de droite améliorées */}
@@ -145,7 +145,7 @@ export default function Header() {
               <div className="hidden sm:block">
                 <LocaleSelectLanguage />
               </div>
-              
+
               {/* Liens desktop */}
               <div className="hidden lg:flex lg:items-center lg:gap-3">
                 <Link
@@ -181,10 +181,10 @@ export default function Header() {
       {/* Menu mobile amélioré */}
       <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" />
-        <DialogPanel className="fixed inset-y-4 right-4 z-50 w-[90vw] max-w-sm overflow-y-auto bg-gray-900/95 backdrop-blur-sm rounded-2xl border border-gray-700/50 shadow-2xl transform transition-transform duration-300">
-          <div className="flex items-center justify-between p-6 border-b border-gray-700/50 bg-gradient-to-r from-gray-900/50 to-gray-800/50 rounded-t-2xl">
+        <DialogPanel className="fixed inset-0 z-50 w-full h-full overflow-y-auto bg-gray-900/95 backdrop-blur-sm border-0 rounded-none shadow-2xl">
+          <div className="sticky top-0 z-10 flex items-center justify-between px-5 py-4 border-b border-gray-700/50 bg-gradient-to-r from-gray-900/80 to-gray-800/60">
             <Link href="/" className="flex items-center" onClick={() => setMobileMenuOpen(false)}>
-              <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-500/25">
+              <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-500/25 ring-1 ring-white/20">
                 <Image
                   src="/s-logo.png"
                   alt="Scrapdeouf"
@@ -200,19 +200,19 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
-              className="rounded-xl p-2 text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/10"
+              className="rounded-xl p-2.5 text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/10"
             >
               <span className="sr-only">Fermer le menu</span>
               <XMarkIcon aria-hidden="true" className="size-5" />
             </button>
           </div>
-          
-          <div className="p-6">
+
+          <div className="px-5 py-4">
             <div className="flow-root">
-              <div className="-my-4 divide-y divide-gray-700/50">
+              <div className="-my-4 divide-y divide-gray-800/60">
                 {/* Navigation mobile */}
-                <div className="space-y-3 py-4">
-                  
+                <div className="space-y-2 py-4">
+
                   {/* Liens simples mobile */}
                   {[
                     { href: '/pricing', label: 'Tarifs' },
@@ -222,7 +222,7 @@ export default function Header() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="-mx-2 block rounded-xl p-3 text-base font-semibold text-white hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/10"
+                      className="-mx-2 block rounded-lg px-3 py-3 text-lg font-semibold text-white hover:bg-white/5 transition-all duration-200"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {item.label}
@@ -236,10 +236,10 @@ export default function Header() {
                   <div className="px-2 sm:hidden">
                     <LocaleSelectLanguage />
                   </div>
-                  
+
                   <Link
                     href="/login"
-                    className="-mx-2 block rounded-xl p-3 text-base font-semibold text-white hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/10 text-center flex items-center justify-center gap-2"
+                    className="-mx-2 block rounded-lg px-3 py-3 text-lg font-semibold text-white hover:bg-white/5 transition-all duration-200 text-center flex items-center justify-center gap-2"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Se connecter
@@ -247,7 +247,7 @@ export default function Header() {
                   </Link>
                   <Link
                     href="/demo"
-                    className="-mx-2 block rounded-xl p-3 text-base font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-center transition-all duration-300 transform hover:scale-105 shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2 group"
+                    className="-mx-2 block rounded-lg px-3 py-3 text-lg font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-center transition-all duration-200 shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2 group"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <span>Démo gratuite</span>
