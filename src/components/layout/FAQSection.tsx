@@ -64,74 +64,64 @@ export default function FAQSection() {
       question: `${t("landing.faq.items.12.question")}`,
       answer: `${t("landing.faq.items.12.answer")}`,
     },
-    
-   
+
+
   ]
 
   return (
-    <div className="relative isolate bg-gray-900 py-24 sm:py-32">
-      <div aria-hidden="true" className="absolute inset-x-0 -top-3 -z-10 transform-gpu overflow-hidden px-36 blur-3xl">
-        <div
-          style={{
-            clipPath:
-              'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-          }}
-          className="mx-auto aspect-1155/678 w-288.75 bg-gradient-to-tr to-[#9089fc] from-[#4F46E5] opacity-20"
-        />
-      </div>
-      
+    <div className="relative bg-white py-16 sm:py-20 lg:py-24">
       <div className="container mx-auto max-w-screen-xl px-4 md:px-6">
-        <div className="mx-auto max-w-4xl text-center">
-        <h2 className="text-base/7 font-semibold text-indigo-400">FAQ</h2>
-        <p className="mt-2 text-5xl font-semibold tracking-tight text-balance text-white sm:text-6xl">
-          {t("landing.faq.title")}
-        </p>
+        <div className="mx-auto max-w-4xl text-center mb-12 sm:mb-16">
+          <h2 className="text-sm sm:text-base font-semibold text-indigo-600 uppercase tracking-wide">FAQ</h2>
+          <p className="mt-3 sm:mt-4 text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-balance text-gray-900">
+            {t("landing.faq.title")}
+          </p>
         </div>
-      </div>
 
-      <div className="container mx-auto max-w-screen-xl px-4 md:px-6">
-        <div className="mx-auto mt-16 max-w-4xl">
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <div 
-              key={index}
-              className="rounded-2xl bg-gray-800 p-6 ring-1 ring-white/10"
-            >
-              <button
-                className={`flex items-center justify-between w-full text-left ${
-                  activeIndex === index ? 'cursor-pointer' : 'hover:text-gray-300 cursor-pointer'
-                } transition-colors`}
-                onClick={() => toggleFAQ(index)}
-              >
-                <span className="text-lg font-semibold text-white">
-                  {faq.question}
-                </span>
-                <span className="text-[#5c36f7] ml-4 flex-shrink-0">
-                  {activeIndex === index ? (
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                    </svg>
-                  ) : (
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                    </svg>
-                  )}
-                </span>
-              </button>
-
+        <div className="mx-auto max-w-4xl">
+          <div className="space-y-3 sm:space-y-4">
+            {faqs.map((faq, index) => (
               <div
-                className={`overflow-hidden transition-all duration-200 ${
-                  activeIndex === index
-                    ? 'max-h-40 opacity-100 mt-4'
-                    : 'max-h-0 opacity-0'
-                }`}
+                key={index}
+                className="rounded-xl sm:rounded-2xl bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden"
               >
-                <div className="h-px bg-gray-700 my-3"></div>
-                <p className="text-gray-300 text-base/7">{faq.answer}</p>
+                <button
+                  className={`flex items-start justify-between w-full text-left p-4 sm:p-5 lg:p-6 ${activeIndex === index
+                    ? 'bg-gray-50'
+                    : 'hover:bg-gray-50'
+                    } transition-colors duration-200`}
+                  onClick={() => toggleFAQ(index)}
+                >
+                  <span className="text-base sm:text-lg font-semibold text-gray-900 pr-4 flex-1 text-left">
+                    {faq.question}
+                  </span>
+                  <span className="text-indigo-600 ml-4 flex-shrink-0 mt-0.5">
+                    {activeIndex === index ? (
+                      <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M20 12H4" />
+                      </svg>
+                    ) : (
+                      <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+                      </svg>
+                    )}
+                  </span>
+                </button>
+
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${activeIndex === index
+                    ? 'max-h-[500px] opacity-100'
+                    : 'max-h-0 opacity-0'
+                    }`}
+                >
+                  <div className="h-px bg-gray-200 mx-4 sm:mx-5 lg:mx-6"></div>
+                  <div className="p-4 sm:p-5 lg:p-6 pt-4 sm:pt-5 lg:pt-6">
+                    <p className="text-base sm:text-lg text-gray-600 leading-relaxed">{faq.answer}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

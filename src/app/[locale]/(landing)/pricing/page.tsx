@@ -253,7 +253,7 @@ export default function PricingPage() {
 
     // Rediriger directement vers la page de checkout ou autre action
     // Vous pouvez adapter cette logique selon vos besoins
-    router.push(`/checkout?plan=${planId}&interval=${billingCycle}`);
+    router.push("/login");
   };
 
   const handleSwitchChange = (checked: boolean) => {
@@ -276,7 +276,7 @@ export default function PricingPage() {
 
       <div className="mx-auto max-w-4xl text-center">
         <h2 className="text-base/7 font-semibold text-indigo-600">Pricing</h2>
-        <p className="mt-2 text-5xl font-semibold tracking-tight text-balance text-gray-900 sm:text-6xl">
+        <p className="mt-2 text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight text-balance text-gray-900">
           Choisissez <HighlightText variant="fancy-slant" color="secondary">le plan</HighlightText> qui vous convient
         </p>
       </div>
@@ -291,7 +291,7 @@ export default function PricingPage() {
           htmlFor="billing-cycle"
           className={classNames(
             "text-gray-900",
-            "text-lg font-bold cursor-pointer"
+            "text-base sm:text-lg font-bold cursor-pointer"
           )}
         >
           Mensuel
@@ -309,7 +309,7 @@ export default function PricingPage() {
             htmlFor="billing-cycle"
             className={classNames(
               "text-gray-900",
-              "text-lg font-bold cursor-pointer"
+              "text-base sm:text-lg font-bold cursor-pointer"
             )}
           >
             Annuel
@@ -421,10 +421,10 @@ export default function PricingPage() {
               onClick={() => handleChoose(plan.id)}
               className={classNames(
                 plan.popular
-                  ? 'bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline-indigo-600'
+                  ? 'bg-indigo-600 cursor-pointer text-white hover:bg-indigo-500 focus-visible:outline-indigo-600'
                   : plan.id === "enterprise"
-                    ? 'bg-gray-900 text-white hover:bg-gray-800'
-                    : 'bg-gray-100 text-gray-900 hover:bg-gray-200 focus-visible:outline-gray-300',
+                    ? 'bg-gray-900 cursor-pointer text-white hover:bg-gray-800'
+                    : 'bg-gray-100 cursor-pointer text-gray-900 hover:bg-gray-200 focus-visible:outline-gray-300',
                 'mt-8 block w-full rounded-md px-3.5 py-2.5 text-center text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 sm:mt-10'
               )}
             >
