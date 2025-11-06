@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import SubscribePage from "@/components/subscribe";
 import dynamic from "next/dynamic";
 import { Button } from '@/components/ui/button'
 import { signIn } from 'next-auth/react'
