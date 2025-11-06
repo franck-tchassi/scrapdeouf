@@ -2,16 +2,16 @@
 
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, Fragment } from 'react'; // Ajout de Fragment
 import {
   Dialog,
-  DialogPanel,
+  Transition, // Importation de Transition
 } from '@headlessui/react';
 import {
-  Bars3Icon,
-  XMarkIcon,
   ChevronRightIcon,
 } from '@heroicons/react/24/outline';
+import { RiMenu4Fill } from "react-icons/ri"; // Nouvelle icône hamburger
+import { IoCloseCircleOutline } from "react-icons/io5"; // Nouvelle icône de fermeture
 import LocaleSelectLanguage from '@/app/[locale]/LocaleSelectLanguage';
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -19,9 +19,7 @@ import Image from 'next/image';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // Removed scrolled state and useEffect as per example
 
-  // Liens de navigation pour le desktop et le mobile
   const navigationLinks = [
     { name: 'Tarifs', href: '/pricing' },
     { name: 'Blog', href: '/blog' },
@@ -29,8 +27,6 @@ export default function Header() {
 
   return (
     <header className="absolute inset-x-0 top-0 z-50 bg-gray-900">
-      {/* Removed "Effet de brillance subtile" and "Effet de bordure animée" divs */}
-
       <nav aria-label="Global" className="relative z-10 flex items-center justify-between p-3 lg:px-8">
         {/* Logo */}
         <div className="flex lg:flex-1">
@@ -40,7 +36,7 @@ export default function Header() {
             onClick={() => setMobileMenuOpen(false)}
           >
             <div className="relative">
-              <div className="w-12 h-12 bg-indigo-600 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/25 relative z-10">
+              <div className="w-12 h-12 bg-blueviolet rounded-xl flex items-center justify-center shadow-lg shadow-blueviolet/25 relative z-10">
                 <Image
                   src="/s-logo.png"
                   alt="Scrapdeouf"
@@ -50,7 +46,7 @@ export default function Header() {
                   priority
                 />
               </div>
-              <div className="hidden sm:block absolute inset-0 bg-gradient-to-br from-indigo-500/30 to-purple-600/30 rounded-xl blur-sm group-hover:blur-md transition-all duration-500" />
+              <div className="hidden sm:block absolute inset-0 bg-blueviolet/30 rounded-xl blur-sm group-hover:blur-md transition-all duration-500" />
             </div>
             <div className="ml-3 flex flex-col">
               <span className="text-white text-xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
@@ -71,7 +67,6 @@ export default function Header() {
               {item.name}
             </Link>
           ))}
-          {/* LocaleSelectLanguage et Connexion déplacés ici */}
           <div className="text-sm font-medium text-gray-300 hover:text-blueviolet transition-colors duration-300 px-2 py-2.5">
             <LocaleSelectLanguage />
           </div>
@@ -103,80 +98,108 @@ export default function Header() {
             onClick={() => setMobileMenuOpen(true)}
           >
             <span className="sr-only">Ouvrir le menu principal</span>
-            <Bars3Icon aria-hidden="true" className="h-6 w-6 group-hover:scale-110 transition-transform" />
+            <RiMenu4Fill aria-hidden="true" className="h-6 w-6 group-hover:scale-110 transition-transform" /> {/* Nouvelle icône */}
           </button>
         </div>
       </nav>
 
-      {/* Menu mobile */}
-      <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" />
-        <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full max-w-sm overflow-y-auto bg-gray-900/95 backdrop-blur-sm p-6 ring-1 ring-gray-100/10">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="-m-1.5 p-1.5 flex items-center" onClick={() => setMobileMenuOpen(false)}>
-              {/* Modification ici : Ajout du div avec le dégradé de fond */}
-              <div className="relative">
-                <div className="w-12 h-12 bg-indigo-600 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/25 relative z-10">
-                  <Image
-                    src="/s-logo.png"
-                    alt="Scrapdeouf"
-                    width={28}
-                    height={28}
-                    className="h-7 w-7 drop-shadow-lg filter brightness-0 invert"
-                    priority
-                  />
-                </div>
-              </div>
-              <span className="ml-3 text-white text-lg font-bold">Scrapdeouf</span>
-            </Link>
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(false)}
-              className="-m-2.5 rounded-md p-2.5 text-gray-200"
-            >
-              <span className="sr-only">Fermer le menu</span>
-              <XMarkIcon aria-hidden="true" className="size-6" />
-            </button>
-          </div>
-          <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-white/10">
-              <div className="space-y-2 py-6">
-                {navigationLinks.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="-mx-3 block px-3 py-2 text-base/7 font-semibold text-white hover:text-blueviolet transition-colors duration-300"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
-              <div className="py-6 space-y-2">
-                <div className="-mx-3 block px-3 py-2 text-white hover:text-blueviolet transition-colors duration-300">
-                  <LocaleSelectLanguage />
-                </div>
-                <Link
-                  href="/login"
-                  className="-mx-3 block px-3 py-2.5 text-base/7 font-semibold text-white hover:text-blueviolet transition-colors duration-300 text-center flex items-center justify-center gap-2"
-                  onClick={() => setMobileMenuOpen(false)}
+      {/* Menu mobile avec transitions */}
+      <Transition show={mobileMenuOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-50 lg:hidden" onClose={setMobileMenuOpen}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-hidden">
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+                <Transition.Child
+                  as={Fragment}
+                  enter="transform transition ease-in-out duration-500 sm:duration-700"
+                  enterFrom="translate-x-full"
+                  enterTo="translate-x-0"
+                  leave="transform transition ease-in-out duration-500 sm:duration-700"
+                  leaveFrom="translate-x-0"
+                  leaveTo="translate-x-full"
                 >
-                  Se connecter
-                  <ChevronRightIcon className="w-4 h-4" />
-                </Link>
-                <Link
-                  href="/demo"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white bg-blueviolet hover:bg-blueviolet/80 text-center transition-all duration-200 shadow-lg shadow-blueviolet/25 flex items-center justify-center gap-2 group"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <span>Démo gratuite</span>
-                  <ChevronRightIcon className="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" />
-                </Link>
+                  <Dialog.Panel className="pointer-events-auto w-screen max-w-sm overflow-y-auto bg-gray-900/95 backdrop-blur-sm p-6 ring-1 ring-gray-100/10">
+                    <div className="flex items-center justify-between">
+                      <Link href="/" className="-m-1.5 p-1.5 flex items-center" onClick={() => setMobileMenuOpen(false)}>
+                        <div className="relative">
+                          <div className="w-12 h-12 bg-blueviolet rounded-xl flex items-center justify-center shadow-lg shadow-blueviolet/25 relative z-10">
+                            <Image
+                              src="/s-logo.png"
+                              alt="Scrapdeouf"
+                              width={28}
+                              height={28}
+                              className="h-7 w-7 drop-shadow-lg filter brightness-0 invert"
+                              priority
+                            />
+                          </div>
+                        </div>
+                        <span className="ml-3 text-white text-lg font-bold">Scrapdeouf</span>
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="-m-2.5 rounded-md p-2.5 text-gray-200"
+                      >
+                        <span className="sr-only">Fermer le menu</span>
+                        <IoCloseCircleOutline aria-hidden="true" className="size-6" /> {/* Nouvelle icône de fermeture */}
+                      </button>
+                    </div>
+                    <div className="mt-6 flow-root">
+                      <div className="-my-6 divide-y divide-white/10">
+                        <div className="space-y-2 py-6">
+                          {navigationLinks.map((item) => (
+                            <Link
+                              key={item.name}
+                              href={item.href}
+                              className="-mx-3 block px-3 py-2 text-base/7 font-semibold text-white hover:text-blueviolet transition-colors duration-300"
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              {item.name}
+                            </Link>
+                          ))}
+                        </div>
+                        <div className="py-6 space-y-2">
+                          <div className="-mx-3 block px-3 py-2 text-white hover:text-blueviolet transition-colors duration-300">
+                            <LocaleSelectLanguage />
+                          </div>
+                          <Link
+                            href="/login"
+                            className="-mx-3 block px-3 py-2.5 text-base/7 font-semibold text-white hover:text-blueviolet transition-colors duration-300 text-center flex items-center justify-center gap-2"
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            Se connecter
+                            <ChevronRightIcon className="w-4 h-4" />
+                          </Link>
+                          <Link
+                            href="/demo"
+                            className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white bg-blueviolet hover:bg-blueviolet/80 text-center transition-all duration-200 shadow-lg shadow-blueviolet/25 flex items-center justify-center gap-2 group"
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            <span>Démo gratuite</span>
+                            <ChevronRightIcon className="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" />
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
               </div>
             </div>
           </div>
-        </DialogPanel>
-      </Dialog>
+        </Dialog>
+      </Transition>
     </header>
   );
 }

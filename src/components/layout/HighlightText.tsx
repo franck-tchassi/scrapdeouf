@@ -24,12 +24,12 @@ const HighlightText = ({
       fullGradient: 'bg-gradient-to-r from-blue-500 to-blue-600'
     },
     secondary: {
-      bg: 'bg-purple-500',
-      text: 'text-purple-800',
-      light: 'bg-purple-100',
-      border: 'border-purple-300',
-      gradient: 'from-purple-500 to-purple-600',
-      fullGradient: 'bg-gradient-to-r from-purple-500 to-purple-600'
+      bg: 'bg-blueviolet', // Changé de bg-purple-500 à bg-blueviolet
+      text: 'text-blueviolet-800', // Vous devrez définir cette couleur si elle n'existe pas
+      light: 'bg-blueviolet/10', // Utilisation de blueviolet avec opacité
+      border: 'border-blueviolet', // Changé de border-purple-300 à border-blueviolet
+      gradient: 'from-blueviolet to-blueviolet/80', // Dégradé avec blueviolet
+      fullGradient: 'bg-gradient-to-r from-blueviolet to-blueviolet/80' // Dégradé complet avec blueviolet
     },
     success: {
       bg: 'bg-green-500',

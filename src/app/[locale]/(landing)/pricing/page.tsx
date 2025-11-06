@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import HighlightText from "@/components/layout/HighlightText";
 
+
 type IntervalType = "monthly" | "yearly";
 
 const PLANS = [
@@ -277,7 +278,7 @@ export default function PricingPage() {
 
 
       <div className="mx-auto max-w-4xl text-center">
-        <h2 className="text-base/7 font-semibold text-indigo-600">Pricing</h2>
+        <h2 className="text-base/7 font-semibold text-blueviolet">Pricing</h2>
         <p className="mt-2 text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight text-balance text-gray-900">
           Choisissez <HighlightText variant="fancy-slant" color="secondary">le plan</HighlightText> qui vous convient
         </p>
@@ -303,7 +304,7 @@ export default function PricingPage() {
           id="billing-cycle"
           checked={billingCycle === "yearly"}
           onCheckedChange={handleSwitchChange}
-          className="data-[state=checked]:bg-indigo-500  data-[state=unchecked]:bg-gray-600"
+          className="data-[state=checked]:bg-blueviolet  data-[state=unchecked]:bg-gray-600"
         />
 
         <div className="flex items-center space-x-2">
@@ -319,7 +320,7 @@ export default function PricingPage() {
           {/* Le span est maintenant toujours rendu, mais sa visibilité est contrôlée par la classe 'invisible' */}
           <span
             className={classNames(
-              "bg-green-700 text-white text-xs font-bold px-2 py-1 rounded-full",
+              "bg-blueviolet text-white text-xs font-bold px-2 py-1 rounded-full", // Changé de bg-green-700 à bg-blueviolet
               billingCycle === "monthly" && "invisible" // Rendre invisible si mensuel
             )}
           >
@@ -334,7 +335,7 @@ export default function PricingPage() {
           <div
             key={plan.id}
             className={classNames(
-              plan.popular ? 'relative bg-white ring-2 ring-indigo-500' : 'bg-white',
+              plan.popular ? 'relative bg-white ring-2 ring-blueviolet' : 'bg-white', // Changé de ring-indigo-500 à ring-blueviolet
               plan.popular
                 ? ''
                 : planIdx === 0
@@ -346,14 +347,14 @@ export default function PricingPage() {
             )}
           >
             {plan.popular && (
-              <div className="absolute top-0 right-0 bg-indigo-500 text-white px-4 py-1 text-sm font-bold transform translate-x-2 -translate-y-2 rotate-6">
+              <div className="absolute top-0 right-0 bg-blueviolet text-white px-4 py-1 text-sm font-bold transform translate-x-2 -translate-y-2 rotate-6"> {/* Changé de bg-indigo-500 à bg-blueviolet */}
                 POPULAIRE
               </div>
             )}
 
             <h3
               className={classNames(
-                'text-indigo-600',
+                'text-blueviolet', // Changé de text-indigo-600 à text-blueviolet
                 'text-base/7 font-semibold'
               )}
             >
@@ -366,7 +367,7 @@ export default function PricingPage() {
                   <span className="text-gray-500 text-sm line-through">
                     {plan.prices.monthly.display}/mois
                   </span>
-                  <span className="bg-green-700 text-white text-xs font-bold px-2 py-1 rounded">
+                  <span className="bg-blueviolet text-white text-xs font-bold px-2 py-1 rounded"> {/* Changé de bg-green-700 à bg-blueviolet */}
                     Économisez 30%
                   </span>
                 </div>
@@ -410,7 +411,7 @@ export default function PricingPage() {
                   <CheckIcon
                     aria-hidden="true"
                     className={classNames(
-                      'text-indigo-600',
+                      'text-blueviolet', // Changé de text-indigo-600 à text-blueviolet
                       'h-6 w-5 flex-none'
                     )}
                   />
@@ -423,7 +424,7 @@ export default function PricingPage() {
               onClick={() => handleChoose(plan.id)}
               className={classNames(
                 plan.popular
-                  ? 'bg-indigo-600 cursor-pointer text-white hover:bg-indigo-500 focus-visible:outline-indigo-600'
+                  ? 'bg-blueviolet cursor-pointer text-white hover:bg-blueviolet/80 focus-visible:outline-blueviolet' // Changé de bg-indigo-600 à bg-blueviolet
                   : plan.id === "enterprise"
                     ? 'bg-gray-900 cursor-pointer text-white hover:bg-gray-800'
                     : 'bg-gray-100 cursor-pointer text-gray-900 hover:bg-gray-200 focus-visible:outline-gray-300',
@@ -458,7 +459,7 @@ export default function PricingPage() {
                       <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                         Pro
                       </th>
-                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-indigo-600 bg-indigo-50">
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-blueviolet bg-blueviolet/10"> {/* Changé de text-indigo-600 bg-indigo-50 à text-blueviolet bg-blueviolet/10 */}
                         Premium
                       </th>
                       <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 sm:pr-6 lg:pr-8">
@@ -475,7 +476,7 @@ export default function PricingPage() {
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-center">
                           {typeof row.pro === 'boolean' ? (
                             row.pro ? (
-                              <CheckIcon className="h-5 w-5 text-indigo-600 mx-auto" />
+                              <CheckIcon className="h-5 w-5 text-blueviolet mx-auto" />
                             ) : (
                               <span className="text-gray-400">—</span>
                             )
@@ -483,10 +484,10 @@ export default function PricingPage() {
                             <span className="text-gray-700">{row.pro}</span>
                           )}
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-center bg-indigo-50/50">
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-center bg-blueviolet/5"> {/* Changé de bg-indigo-50/50 à bg-blueviolet/5 */}
                           {typeof row.premium === 'boolean' ? (
                             row.premium ? (
-                              <CheckIcon className="h-5 w-5 text-indigo-600 mx-auto" />
+                              <CheckIcon className="h-5 w-5 text-blueviolet mx-auto" /> 
                             ) : (
                               <span className="text-gray-400">—</span>
                             )
@@ -497,7 +498,7 @@ export default function PricingPage() {
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-center sm:pr-6 lg:pr-8">
                           {typeof row.enterprise === 'boolean' ? (
                             row.enterprise ? (
-                              <CheckIcon className="h-5 w-5 text-indigo-600 mx-auto" />
+                              <CheckIcon className="h-5 w-5 text-blueviolet mx-auto" /> 
                             ) : (
                               <span className="text-gray-400">—</span>
                             )

@@ -72,7 +72,7 @@ export default function FAQSection() {
     <div className="relative bg-white py-16 sm:py-20 lg:py-24">
       <div className="container mx-auto max-w-screen-xl px-4 md:px-6">
         <div className="mx-auto max-w-4xl text-center mb-12 sm:mb-16">
-          <h2 className="text-sm sm:text-base font-semibold text-indigo-600 uppercase tracking-wide">FAQ</h2>
+          <h2 className="text-sm sm:text-base font-semibold text-blueviolet uppercase tracking-wide">FAQ</h2>
           <p className="mt-3 sm:mt-4 text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-balance text-gray-900">
             {t("landing.faq.title")}
           </p>
@@ -95,7 +95,7 @@ export default function FAQSection() {
                   <span className="text-base sm:text-lg font-semibold text-gray-900 pr-4 flex-1 text-left">
                     {faq.question}
                   </span>
-                  <span className="text-indigo-600 ml-4 flex-shrink-0 mt-0.5">
+                  <span className="text-blueviolet ml-4 flex-shrink-0 mt-0.5">
                     {activeIndex === index ? (
                       <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M20 12H4" />
