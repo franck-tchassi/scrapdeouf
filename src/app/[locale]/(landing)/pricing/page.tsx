@@ -1,3 +1,5 @@
+// src/app/[locale]/(landing)/pricing/page.tsx
+
 "use client";
 
 import React, { useState } from "react";

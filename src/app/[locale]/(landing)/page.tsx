@@ -1,3 +1,5 @@
+// src/app/[locale]/(landing)/page.tsx
+
 "use client";
 
 
