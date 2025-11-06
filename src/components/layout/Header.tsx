@@ -91,7 +91,7 @@ export default function Header() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <div className="relative">
-                  <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/25">
+                  <div className="w-12 h-12 bg-indigo-600 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/25 relative z-10">
                     <Image
                       src="/s-logo.png"
                       alt="Scrapdeouf"
@@ -184,7 +184,7 @@ export default function Header() {
         <DialogPanel className="fixed inset-0 z-50 w-full h-full overflow-y-auto bg-gray-900/95 backdrop-blur-sm border-0 rounded-none shadow-2xl">
           <div className="sticky top-0 z-10 flex items-center justify-between px-5 py-4 border-b border-gray-700/50 bg-gradient-to-r from-gray-900/80 to-gray-800/60">
             <Link href="/" className="flex items-center" onClick={() => setMobileMenuOpen(false)}>
-              <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-500/25 ring-1 ring-white/20">
+              <div className="w-10 h-10 bg-indigo-600 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-500/25 ring-1 ring-white/20 relative z-10">
                 <Image
                   src="/s-logo.png"
                   alt="Scrapdeouf"

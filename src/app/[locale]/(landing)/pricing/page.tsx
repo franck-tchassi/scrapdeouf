@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { CheckIcon } from '@heroicons/react/24/solid'
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
+import HighlightText from "@/components/layout/HighlightText";
 
 type IntervalType = "monthly" | "yearly";
 
@@ -284,7 +285,7 @@ export default function PricingPage() {
       <div className="mx-auto max-w-4xl text-center">
         <h2 className="text-base/7 font-semibold text-indigo-400">Pricing</h2>
         <p className="mt-2 text-5xl font-semibold tracking-tight text-balance text-white sm:text-6xl">
-          Choisissez le plan qui vous convient
+          Choisissez <HighlightText variant="fancy-slant" color="secondary">le plan</HighlightText> qui vous convient
         </p>
       </div>
 
@@ -428,7 +429,7 @@ export default function PricingPage() {
               onClick={() => handleChoose(plan.id)}
               className={classNames(
                 plan.popular
-                  ? 'bg-indigo-500 text-white hover:bg-indigo-400 focus-visible:outline-indigo-500'
+                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white '
                   : plan.id === "enterprise"
                     ? 'bg-gray-700 text-white hover:bg-gray-600'
                     : 'bg-white/10 text-white ring-1 ring-white/5 hover:bg-white/20 focus-visible:outline-white/75',
