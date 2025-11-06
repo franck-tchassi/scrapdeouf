@@ -1,3 +1,5 @@
+
+
 # Déployer le worker Playwright (scraping)
 
 Ce dossier contient des instructions et des fichiers utiles pour déployer le worker qui exécute la logique de scraping (Playwright/Chromium) hors de Vercel.
@@ -32,6 +34,30 @@ Déploiement (Render / Railway / DigitalOcean / autre)
 1. Déployer en utilisant le `worker.Dockerfile` comme image Docker.
 2. Définir les variables d'environnement dans la plateforme (DATABASE_URL, REDIS_URL, etc.).
 3. Procéder au déploiement ; le service lancera le worker et traitera les jobs.
+
+---
+
+Déploiement sur Render (guide étape‑par‑étape)
+
+1. Connectez-vous à https://render.com et créez un nouveau service.
+2. Choisissez "Background Worker" (type `background`) et connectez votre dépôt Git.
+3. Configurez le service :
+	- Environment : `Docker`
+	- Dockerfile Path : `worker.Dockerfile` (à la racine du repo)
+	- Start Command : `node --loader ts-node/esm src/worker.ts`
+	- Plan / Instance : choisissez un plan avec au moins 1–2GB RAM (Playwright a besoin de mémoire).
+4. Ajoutez ces variables d'environnement dans Render :
+	- `DATABASE_URL` (MongoDB)
+	- `REDIS_URL` (ex: `redis://:password@host:6379`)
+	- `NODE_ENV=production`
+	- Optionnel : `ALLOW_DIRECT_SCRAPE=1` pour autoriser les runs directs sur cet environnement.
+5. Déployez le service. Render buildera l'image et démarrera le worker.
+
+Conseils Render
+- La première build peut être longue (installation de Playwright). Consultez les logs de build.
+- Si vous utilisez un Redis géré (Redis Labs, Upstash...), copiez l'URL complète dans `REDIS_URL`.
+- Configurez des alertes/health checks si nécessaire.
+
 
 Notes et bonnes pratiques
 - Préférez exécuter les jobs de scraping sur un worker dédié plutôt que dans les fonctions serverless.

@@ -1,0 +1,26 @@
+FROM mcr.microsoft.com/playwright:focal AS builder
+
+WORKDIR /app
+
+# Copy package and prisma schema first
+COPY package*.json ./
+COPY prisma ./prisma/
+
+# Install dependencies and generate Prisma client
+RUN npm ci && npx prisma generate
+
+# Copy source and build TypeScript
+COPY . .
+RUN npm run build || npx tsc
+
+FROM mcr.microsoft.com/playwright:focal
+WORKDIR /app
+
+# Copy node_modules and built files from builder
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/dist ./dist
+
+ENV NODE_ENV=production
+
+CMD ["node", "dist/src/worker.js"]

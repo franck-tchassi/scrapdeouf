@@ -1,17 +1,25 @@
+# worker.Dockerfile
+
 FROM mcr.microsoft.com/playwright:focal
 
 WORKDIR /app
 
 # Copy package files first for caching
-COPY package.json package-lock.json* ./
+COPY package*.json ./
+COPY prisma ./prisma/
 
-# Install all dependencies (we need ts-node & playwright in the container)
-RUN npm ci
+# Install dependencies and generate Prisma client
+RUN npm ci && npx prisma generate
+
+# Install Playwright browsers
+RUN npx playwright install chromium
 
 # Copy source
 COPY . .
 
 ENV NODE_ENV=production
 
-# If you prefer to run a compiled worker, replace the CMD by the compiled file path
+# Build if using TypeScript compilation
+# RUN npm run build
+
 CMD ["node", "--loader", "ts-node/esm", "src/worker.ts"]

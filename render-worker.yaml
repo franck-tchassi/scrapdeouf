@@ -1,0 +1,20 @@
+# render-worker.yaml
+
+services:
+  - type: background
+    name: scrapdeouf-worker
+    env: docker
+  dockerfilePath: worker.Dockerfile.prod
+    plan: standard
+    instanceType: starter
+    buildCommand: ""
+  startCommand: "node dist/src/worker.js"
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: NODE_ENV
+        value: production
+      - key: ALLOW_DIRECT_SCRAPE
+        value: '0'
