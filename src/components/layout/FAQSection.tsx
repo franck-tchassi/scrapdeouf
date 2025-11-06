@@ -69,7 +69,7 @@ export default function FAQSection() {
   ]
 
   return (
-    <div className="relative isolate bg-gray-900 px-6 py-24 sm:py-32 lg:px-8">
+    <div className="relative isolate bg-gray-900 py-24 sm:py-32">
       <div aria-hidden="true" className="absolute inset-x-0 -top-3 -z-10 transform-gpu overflow-hidden px-36 blur-3xl">
         <div
           style={{
@@ -80,14 +80,17 @@ export default function FAQSection() {
         />
       </div>
       
-      <div className="mx-auto max-w-4xl text-center">
+      <div className="container mx-auto max-w-screen-xl px-4 md:px-6">
+        <div className="mx-auto max-w-4xl text-center">
         <h2 className="text-base/7 font-semibold text-indigo-400">FAQ</h2>
         <p className="mt-2 text-5xl font-semibold tracking-tight text-balance text-white sm:text-6xl">
           {t("landing.faq.title")}
         </p>
+        </div>
       </div>
 
-      <div className="mx-auto mt-16 max-w-4xl">
+      <div className="container mx-auto max-w-screen-xl px-4 md:px-6">
+        <div className="mx-auto mt-16 max-w-4xl">
         <div className="space-y-4">
           {faqs.map((faq, index) => (
             <div 
@@ -128,6 +131,7 @@ export default function FAQSection() {
               </div>
             </div>
           ))}
+        </div>
         </div>
       </div>
     </div>

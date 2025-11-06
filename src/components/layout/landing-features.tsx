@@ -162,7 +162,7 @@ export function LandingFeatures() {
         />
       </div>
 
-      <div className="container mx-auto px-4 max-w-6xl z-10 relative">
+      <div className="container mx-auto max-w-screen-xl px-4 md:px-6 z-10 relative">
         {/* Features Grid */}
         <div className="space-y-8">
           {features.map((feature, index) => (

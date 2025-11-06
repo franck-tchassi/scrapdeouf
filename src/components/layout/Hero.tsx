@@ -24,7 +24,7 @@ export default function Hero() {
 
   return (
     <div className="bg-gray-900">
-      <div className="relative isolate px-6 lg:px-8 pt-20">
+      <div className="relative isolate pt-20">
         {/* Effet d'arrière-plan flou */}
         <div
           aria-hidden="true"
@@ -39,7 +39,7 @@ export default function Hero() {
           />
         </div>
 
-        <div className="mx-auto max-w-7xl py-20 sm:py-28 lg:py-32">
+        <div className="container mx-auto max-w-screen-xl px-4 md:px-6 py-20 sm:py-28 lg:py-32">
           <div className="text-center">
 
             <h1 className="text-3xl font-bold tracking-tight text-balance text-white sm:text-5xl">

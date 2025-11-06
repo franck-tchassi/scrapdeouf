@@ -157,7 +157,7 @@ export default function LandingPage() {
 
 
   return (
-    <div >
+    <div className="container mx-auto max-w-screen-xl px-4 md:px-6">
       <Hero />
       <ComparisonScrapdeouf />
       <ExportFeature />
@@ -165,7 +165,7 @@ export default function LandingPage() {
       
       <AnimatedSection
           id="testimonials-section"
-          className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16"
+          className="relative z-10 container mx-auto max-w-screen-xl px-4 md:px-6 mt-8 md:mt-16"
           delay={0.2}
         >
           <TestimonialGridSection />

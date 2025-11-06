@@ -52,7 +52,7 @@ const ComparisonScrapdeouf = () => {
 
   return (
     <section className="w-full py-20 bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto max-w-screen-xl px-4 md:px-6">
         {/* En-tête avec titre impactant */}
         <div className="text-center mb-16">
           

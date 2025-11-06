@@ -56,7 +56,7 @@ const AutomationFeature = () => {
 
   return (
     <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto max-w-screen-xl px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           
           {/* Colonne de contenu */}

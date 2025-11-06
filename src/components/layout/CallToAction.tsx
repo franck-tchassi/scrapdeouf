@@ -7,7 +7,7 @@ import SocialProof from "./SocialProof"; // 👈 import du composant
 export function CallToAction() {
   return (
     <section className="py-20 bg-gray-900">
-      <div className="container mx-auto px-4 max-w-4xl">
+      <div className="container mx-auto max-w-screen-xl px-4 md:px-6">
         <div className="text-center">
 
           {/* ✅ Social Proof au-dessus du titre */}

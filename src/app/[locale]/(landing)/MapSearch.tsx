@@ -274,18 +274,18 @@ export function MapsSearch() {
     }
 
     return (
-        <div className="flex flex-col items-center w-full space-y-8">
+        <div className="w-full container mx-auto max-w-screen-xl px-4 md:px-6 flex flex-col items-center space-y-8">
             
             {/* Formulaire de recherche */}
             {/* Formulaire de recherche */}
-<form onSubmit={handleSubmit} className="w-full max-w-6xl">
+<form onSubmit={handleSubmit} className="w-full">
     <div className="p-2">
         <div className="flex flex-col space-y-6">
             {/* Ligne des inputs */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Activité */}
                 <div className="space-y-2">
-                    <label className="hidden md:flex items-center gap-2 text-sm font-medium text-white">
+                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
                         <Building className="h-4 w-4" />
                         Type d'activité
                     </label>
@@ -302,7 +302,7 @@ export function MapsSearch() {
 
                 {/* Ville */}
                 <div className="space-y-2">
-                    <label className="hidden md:flex items-center gap-2 text-sm font-medium text-white">
+                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
                         <MapPin className="h-4 w-4" />
                         Ville
                     </label>
@@ -319,7 +319,7 @@ export function MapsSearch() {
 
                 {/* Pays */}
                 <div className="space-y-2">
-                    <label className="hidden md:flex items-center gap-2 text-sm font-medium text-gray-200">
+                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
                         <Globe className="h-4 w-4" />
                         Pays
                     </label>
@@ -340,7 +340,7 @@ export function MapsSearch() {
                 <Button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full md:w-2xl cursor-pointer bg-gradient-to-r  from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105 h-12 md:h-14 flex items-center justify-center gap-2 md:gap-3 font-semibold text-base md:text-lg group"
+                    className="w-full md:w-auto cursor-pointer bg-gradient-to-r  from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105 h-12 md:h-14 flex items-center justify-center gap-2 md:gap-3 font-semibold text-base md:text-lg group"
                 >
                     {isLoading ? (
                         <>

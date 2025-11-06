@@ -115,7 +115,7 @@ export function SearchResultsTable({
   if (isLoading) {
     return (
       <div className="w-full max-w-full mx-auto mt-8 bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800">
+        <h2 className="text-xl md:text-2xl font-bold mb-6 text-gray-800">
           {searchQuery || "Recherche en cours..."}
         </h2>
         <div className="flex flex-col items-center justify-center py-12">
@@ -134,11 +134,11 @@ export function SearchResultsTable({
   }
 
   return (
-    <div className="w-full max-w-full mx-auto mt-8 bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+      <div className="w-full max-w-full mx-auto mt-8 bg-white rounded-xl shadow-lg p-6 border border-gray-100">
       {/* En-tête avec statistiques */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-800">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800">
             {searchQuery || "Résultats de recherche"}
           </h2>
           
