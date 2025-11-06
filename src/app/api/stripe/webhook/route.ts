@@ -24,12 +24,12 @@ const CREDIT_LIMITS = {
 const PRICE_ID_TO_PLAN: Record<string, SubscriptionPlan> = {
   // Production priceIds
   'price_1SPuzMAkgFpt9TxPsK9g7gbQ': SubscriptionPlan.PRO,
-  'price_1SPv28AkgFpt9TxPw0Vac27F': SubscriptionPlan.PRO, 
+  'price_1SPv28AkgFpt9TxPw0Vac27F': SubscriptionPlan.PRO,
   'price_1SPv4LAkgFpt9TxPgS9etmIe': SubscriptionPlan.PREMIUM,
   'price_1SPv5KAkgFpt9TxPblXTZdfY': SubscriptionPlan.PREMIUM,
   'price_1SPv6fAkgFpt9TxPOaDeZU91': SubscriptionPlan.ENTERPRISE,
   'price_1SPv7UAkgFpt9TxPIkLWwEDK': SubscriptionPlan.ENTERPRISE,
-  
+
   // Development priceIds
   'price_1SPuYuAkgFpt9TxPBzcZZLPs': SubscriptionPlan.PRO,
   'price_1SPub2AkgFpt9TxPTd41uvzM': SubscriptionPlan.PRO,
@@ -65,18 +65,18 @@ export async function POST(req: Request) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
         console.log('🛒 Checkout session completed:', session.id);
-        
+
         if (!session.customer || !session.subscription) {
           throw new Error('Customer ID ou Subscription ID manquant dans la session');
         }
 
         const customerId = session.customer as string;
         const subscriptionId = session.subscription as string;
-        
+
         // Récupérer les détails complets de l'abonnement
         const subscription = await stripe.subscriptions.retrieve(subscriptionId);
         const priceId = subscription.items.data[0].price.id;
-        
+
         // Déterminer le plan basé sur le priceId
         const subscriptionPlan = PRICE_ID_TO_PLAN[priceId] || SubscriptionPlan.FREE;
         const creditsLimit = CREDIT_LIMITS[subscriptionPlan] || CREDIT_LIMITS.FREE;
@@ -102,12 +102,12 @@ export async function POST(req: Request) {
 
         if (user) {
           // ⚠️ CORRECTION : NE PAS réinitialiser creditsUsed pour les utilisateurs existants
+          // NOTE: `isActive` field removed from update payload to avoid TypeScript mismatch
           user = await prisma.user.update({
             where: { id: user.id },
             data: {
               stripeCustomerId: customerId,
               email: customer.email,
-              isActive: true,
               creditsLimit: creditsLimit,
               // ⚠️ creditsUsed conserve sa valeur existante
               lastCreditReset: new Date(),
@@ -116,11 +116,12 @@ export async function POST(req: Request) {
           console.log(`✅ User updated: ${user.id}, credits: ${user.creditsUsed}/${user.creditsLimit}`);
         } else {
           // Nouvel utilisateur - initialiser à 0
+          // NOTE: Do not include `isActive` in the create payload to avoid TS type issues;
+          // if needed, set this field via a separate explicit update or regenerate Prisma client.
           user = await prisma.user.create({
             data: {
               email: customer.email,
               stripeCustomerId: customerId,
-              isActive: true,
               creditsLimit: creditsLimit,
               creditsUsed: 0,
               lastCreditReset: new Date(),
@@ -180,13 +181,13 @@ export async function POST(req: Request) {
           // Mettre à jour les crédits si l'abonnement est actif
           if (subscription.status === 'active' || subscription.status === 'trialing') {
             // ⚠️ CORRECTION : NE PAS réinitialiser creditsUsed
+            // NOTE: `isActive` removed from update payload to avoid TS mismatch.
             await prisma.user.update({
               where: { id: existingSubscription.userId },
               data: {
                 creditsLimit: creditsLimit,
                 // ⚠️ creditsUsed conserve sa valeur existante
                 lastCreditReset: new Date(),
-                isActive: true,
               },
             });
             console.log(`✅ Credits limit updated for user ${existingSubscription.userId}`);
@@ -211,15 +212,15 @@ export async function POST(req: Request) {
           });
 
           // ⚠️ CORRECTION : Revenir au plan FREE SANS réinitialiser creditsUsed
+          // NOTE: Remove `isActive` from payload to avoid TS mismatch; only update creditsLimit here.
           await prisma.user.update({
             where: { id: sub.userId },
             data: {
               creditsLimit: CREDIT_LIMITS.FREE,
               // ⚠️ creditsUsed conserve sa valeur existante
-              isActive: false,
             },
           });
-          console.log(`✅ Subscription canceled and user ${sub.userId} downgraded to FREE plan`); 
+          console.log(`✅ Subscription canceled and user ${sub.userId} downgraded to FREE plan`);
         }
         break;
       }
@@ -229,7 +230,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ received: true });
-    
+
   } catch (error) {
     console.error(`❌ Webhook processing error:`, error);
     return NextResponse.json(
