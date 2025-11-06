@@ -271,27 +271,26 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="relative   px-6 py-24 sm:py-32 lg:px-8">
-      
-        
+    <div className="relative bg-white text-gray-900 px-6 py-24 sm:py-32 lg:px-8">
+
 
       <div className="mx-auto max-w-4xl text-center">
-        <h2 className="text-base/7 font-semibold text-indigo-400">Pricing</h2>
-        <p className="mt-2 text-5xl font-semibold tracking-tight text-balance text-white sm:text-6xl">
+        <h2 className="text-base/7 font-semibold text-indigo-600">Pricing</h2>
+        <p className="mt-2 text-5xl font-semibold tracking-tight text-balance text-gray-900 sm:text-6xl">
           Choisissez <HighlightText variant="fancy-slant" color="secondary">le plan</HighlightText> qui vous convient
         </p>
       </div>
 
-      <p className="mx-auto mt-6 max-w-2xl text-center text-lg font-medium text-pretty text-gray-400 sm:text-xl/8">
+      <p className="mx-auto mt-6 max-w-2xl text-center text-lg font-medium text-pretty text-gray-600 sm:text-xl/8">
         Commencez gratuitement, sans engagement. Passez à la vitesse supérieure quand vous êtes prêt.
       </p>
 
       {/* Switch pour Mensuel/Annuel avec économie */}
-      <div className="mt-8 flex justify-center items-center space-x-4">
+      <div className="mt-8 flex justify-center   items-center space-x-4 mx-auto w-full">
         <Label
           htmlFor="billing-cycle"
           className={classNames(
-            "text-black", // Toujours blanc
+            "text-gray-900",
             "text-lg font-bold cursor-pointer"
           )}
         >
@@ -302,14 +301,14 @@ export default function PricingPage() {
           id="billing-cycle"
           checked={billingCycle === "yearly"}
           onCheckedChange={handleSwitchChange}
-          className="data-[state=checked]:from-indigo-600 bg-gradient-to-r data-[state=checked]:to-purple-600  data-[state=unchecked]:bg-gray-600"
+          className="data-[state=checked]:bg-indigo-500  data-[state=unchecked]:bg-gray-600"
         />
 
         <div className="flex items-center space-x-2">
           <Label
             htmlFor="billing-cycle"
             className={classNames(
-              "text-black", // Toujours blanc
+              "text-gray-900",
               "text-lg font-bold cursor-pointer"
             )}
           >
@@ -333,7 +332,7 @@ export default function PricingPage() {
           <div
             key={plan.id}
             className={classNames(
-              plan.popular ? 'relative bg-gray-800 ring-2 ring-indigo-500' : 'bg-white/2.5',
+              plan.popular ? 'relative bg-white ring-2 ring-indigo-500' : 'bg-white',
               plan.popular
                 ? ''
                 : planIdx === 0
@@ -341,7 +340,7 @@ export default function PricingPage() {
                   : planIdx === 1
                     ? 'sm:rounded-t-none lg:rounded-tr-3xl lg:rounded-bl-none'
                     : 'rounded-b-3xl sm:rounded-t-none lg:rounded-tr-3xl',
-              'rounded-3xl p-8 ring-1 ring-white/10 sm:p-10',
+              'rounded-3xl p-8 ring-1 ring-gray-200 sm:p-10',
             )}
           >
             {plan.popular && (
@@ -352,7 +351,7 @@ export default function PricingPage() {
 
             <h3
               className={classNames(
-                plan.popular ? 'text-indigo-400' : 'text-indigo-400',
+                'text-indigo-600',
                 'text-base/7 font-semibold'
               )}
             >
@@ -362,7 +361,7 @@ export default function PricingPage() {
             <div className="mt-4 flex flex-col items-baseline gap-x-2">
               {billingCycle === "yearly" && (
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-gray-400 text-sm line-through">
+                  <span className="text-gray-500 text-sm line-through">
                     {plan.prices.monthly.display}/mois
                   </span>
                   <span className="bg-green-700 text-white text-xs font-bold px-2 py-1 rounded">
@@ -370,17 +369,17 @@ export default function PricingPage() {
                   </span>
                 </div>
               )}
-              
+
               <div className="flex items-baseline gap-x-2">
                 <span className={classNames(
-                  plan.popular ? 'text-white' : 'text-white',
+                  'text-gray-900',
                   'text-5xl font-semibold tracking-tight'
                 )}>
                   {plan.prices ? plan.prices[billingCycle].display : "Sur mesure"}
                 </span>
                 {plan.prices && (
                   <span className={classNames(
-                    plan.popular ? 'text-gray-400' : 'text-gray-400',
+                    'text-gray-600',
                     'text-base'
                   )}>
                     {billingCycle === "monthly" ? "/mois" : "/mois"}
@@ -391,7 +390,7 @@ export default function PricingPage() {
             </div>
 
             <p className={classNames(
-              plan.popular ? 'text-gray-300' : 'text-gray-300',
+              'text-gray-600',
               'mt-6 text-base/7'
             )}>
               {plan.description}
@@ -400,7 +399,7 @@ export default function PricingPage() {
             <ul
               role="list"
               className={classNames(
-                plan.popular ? 'text-gray-300' : 'text-gray-300',
+                'text-gray-700',
                 'mt-8 space-y-3 text-sm/6 sm:mt-10',
               )}
             >
@@ -409,7 +408,7 @@ export default function PricingPage() {
                   <CheckIcon
                     aria-hidden="true"
                     className={classNames(
-                      plan.popular ? 'text-indigo-400' : 'text-indigo-400',
+                      'text-indigo-600',
                       'h-6 w-5 flex-none'
                     )}
                   />
@@ -422,10 +421,10 @@ export default function PricingPage() {
               onClick={() => handleChoose(plan.id)}
               className={classNames(
                 plan.popular
-                  ? 'bg-indigo-500 text-white hover:bg-indigo-400 focus-visible:outline-indigo-500'
+                  ? 'bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline-indigo-600'
                   : plan.id === "enterprise"
-                    ? 'bg-gray-700 text-white hover:bg-gray-600'
-                    : 'bg-white/10 text-white ring-1 ring-white/5 hover:bg-white/20 focus-visible:outline-white/75',
+                    ? 'bg-gray-900 text-white hover:bg-gray-800'
+                    : 'bg-gray-100 text-gray-900 hover:bg-gray-200 focus-visible:outline-gray-300',
                 'mt-8 block w-full rounded-md px-3.5 py-2.5 text-center text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 sm:mt-10'
               )}
             >
@@ -436,72 +435,80 @@ export default function PricingPage() {
       </div>
 
       {/* Section Comparaison des fonctionnalités */}
-      <div className="mx-auto mt-24 max-w-7xl">
-        <div className="bg-gray-800 rounded-2xl p-8 ring-1 ring-white/10 sm:p-10">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-white">Comparaison des fonctionnalités</h2>
-            <p className="mt-4 text-lg text-gray-400">
+      <div className="mx-auto mt-24 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-2xl p-6 sm:p-8 lg:p-10 ring-1 ring-gray-200 shadow-sm">
+          <div className="text-center mb-8 sm:mb-10">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">Comparaison des fonctionnalités</h2>
+            <p className="mt-4 text-base sm:text-lg text-gray-600">
               Découvrez quelle offre correspond le mieux à vos besoins
             </p>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-700">
-                  <th className="py-4 px-6 text-left text-white font-semibold w-1/3 min-w-[200px]">
-                    Fonctionnalités
-                  </th>
-                  <th className="py-4 px-6 text-center text-white font-semibold">Pro</th>
-                  <th className="py-4 px-6 text-center text-indigo-400 font-semibold bg-indigo-900/20">
-                    Premium
-                  </th>
-                  <th className="py-4 px-6 text-center text-white font-semibold">
-                    Entreprise
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {COMPARISON.map((row, idx) => (
-                  <tr key={idx} className={idx % 2 === 0 ? 'bg-gray-700/20' : ''}>
-                    <td className="py-4 px-6 text-white">{row.label}</td>
-                    <td className="py-4 px-6 text-center">
-                      {typeof row.pro === 'boolean' ? (
-                        row.pro ? (
-                          <CheckIcon className="h-6 w-5 text-indigo-400 mx-auto" />
-                        ) : (
-                          <span className="text-gray-500">—</span>
-                        )
-                      ) : (
-                        <span className="text-gray-300">{row.pro}</span>
-                      )}
-                    </td>
-                    <td className="py-4 px-6 text-center bg-indigo-900/10">
-                      {typeof row.premium === 'boolean' ? (
-                        row.premium ? (
-                          <CheckIcon className="h-6 w-5 text-indigo-400 mx-auto" />
-                        ) : (
-                          <span className="text-gray-500">—</span>
-                        )
-                      ) : (
-                        <span className="text-gray-300">{row.premium}</span>
-                      )}
-                    </td>
-                    <td className="py-4 px-6 text-center">
-                      {typeof row.enterprise === 'boolean' ? (
-                        row.enterprise ? (
-                          <CheckIcon className="h-6 w-5 text-indigo-400 mx-auto" />
-                        ) : (
-                          <span className="text-gray-500">—</span>
-                        )
-                      ) : (
-                        <span className="text-gray-300">{row.enterprise}</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="overflow-x-auto -mx-4 sm:mx-0">
+            <div className="inline-block min-w-full align-middle">
+              <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:pl-8 min-w-[200px]">
+                        Fonctionnalités
+                      </th>
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+                        Pro
+                      </th>
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-indigo-600 bg-indigo-50">
+                        Premium
+                      </th>
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 sm:pr-6 lg:pr-8">
+                        Entreprise
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 bg-white">
+                    {COMPARISON.map((row, idx) => (
+                      <tr key={idx} className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}>
+                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8">
+                          {row.label}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-center">
+                          {typeof row.pro === 'boolean' ? (
+                            row.pro ? (
+                              <CheckIcon className="h-5 w-5 text-indigo-600 mx-auto" />
+                            ) : (
+                              <span className="text-gray-400">—</span>
+                            )
+                          ) : (
+                            <span className="text-gray-700">{row.pro}</span>
+                          )}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-center bg-indigo-50/50">
+                          {typeof row.premium === 'boolean' ? (
+                            row.premium ? (
+                              <CheckIcon className="h-5 w-5 text-indigo-600 mx-auto" />
+                            ) : (
+                              <span className="text-gray-400">—</span>
+                            )
+                          ) : (
+                            <span className="text-gray-700 font-medium">{row.premium}</span>
+                          )}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-center sm:pr-6 lg:pr-8">
+                          {typeof row.enterprise === 'boolean' ? (
+                            row.enterprise ? (
+                              <CheckIcon className="h-5 w-5 text-indigo-600 mx-auto" />
+                            ) : (
+                              <span className="text-gray-400">—</span>
+                            )
+                          ) : (
+                            <span className="text-gray-700">{row.enterprise}</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -510,7 +517,7 @@ export default function PricingPage() {
       <div className="mt-24 max-w-7xl mx-auto">
         <FAQSection />
       </div>
-      
+
     </div>
   );
 }
