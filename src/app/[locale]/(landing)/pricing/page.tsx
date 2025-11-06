@@ -271,16 +271,9 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="relative isolate bg-gray-900 px-6 py-24 sm:py-32 lg:px-8">
-      <div aria-hidden="true" className="absolute inset-x-0 -top-3 -z-10 transform-gpu overflow-hidden px-36 blur-3xl">
-        <div
-          style={{
-            clipPath:
-              'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-          }}
-          className="mx-auto aspect-1155/678 w-288.75 bg-gradient-to-tr to-[#9089fc] from-[#4F46E5] opacity-20"
-        />
-      </div>
+    <div className="relative   px-6 py-24 sm:py-32 lg:px-8">
+      
+        
 
       <div className="mx-auto max-w-4xl text-center">
         <h2 className="text-base/7 font-semibold text-indigo-400">Pricing</h2>
@@ -429,7 +422,7 @@ export default function PricingPage() {
               onClick={() => handleChoose(plan.id)}
               className={classNames(
                 plan.popular
-                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white '
+                  ? 'bg-indigo-500 text-white hover:bg-indigo-400 focus-visible:outline-indigo-500'
                   : plan.id === "enterprise"
                     ? 'bg-gray-700 text-white hover:bg-gray-600'
                     : 'bg-white/10 text-white ring-1 ring-white/5 hover:bg-white/20 focus-visible:outline-white/75',
