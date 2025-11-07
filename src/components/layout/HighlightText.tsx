@@ -28,8 +28,8 @@ const HighlightText = ({
       text: 'text-blueviolet-800', // Vous devrez définir cette couleur si elle n'existe pas
       light: 'bg-blueviolet/10', // Utilisation de blueviolet avec opacité
       border: 'border-blueviolet', // Changé de border-purple-300 à border-blueviolet
-      gradient: 'from-blueviolet to-blueviolet/80', // Dégradé avec blueviolet
-      fullGradient: 'bg-gradient-to-r from-blueviolet to-blueviolet/80' // Dégradé complet avec blueviolet
+      gradient: 'bg-blueviolet', // Dégradé avec blueviolet
+      fullGradient: 'bg-blueviolet' // Dégradé complet avec blueviolet
     },
     success: {
       bg: 'bg-green-500',

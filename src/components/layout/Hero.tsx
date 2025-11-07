@@ -13,9 +13,9 @@ export default function Hero() {
 
   // Données pour les badges de plateformes
   const platforms = [
-    { name: "Google Maps", color: "from-red-500 to-red-600", rotation: "-rotate-3" },
-    { name: "Amazon", color: "from-orange-500 to-yellow-500", rotation: "rotate-2" },
-    { name: "+50 sources de plateformes", color: "from-blueviolet to-blueviolet/80", rotation: "-rotate-1" } // Utilisation de blueviolet
+    { name: "Google Maps", color: "bg-red-600", rotation: "-rotate-3" },
+    { name: "Amazon", color: "bg-orange-yellow-gradient", rotation: "rotate-2" },
+    { name: "+50 sources de plateformes", color: "bg-blueviolet", rotation: "-rotate-1" } // Utilisation de blueviolet
   ]
 
   return (
