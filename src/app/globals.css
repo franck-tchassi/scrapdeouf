@@ -41,7 +41,11 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-blueviolet: var(--blueviolet); /* Ajout de la couleur blueviolet au thème inline */
+  --color-blueviolet: var(--blueviolet);
+  --color-red-500: var(--red-500); /* Ajout de la couleur red-500 au thème inline */
+  --color-red-600: var(--red-600); /* Ajout de la couleur red-600 au thème inline */
+  --color-orange-500: var(--orange-500); /* Ajout de la couleur orange-500 au thème inline */
+  --color-yellow-500: var(--yellow-500); /* Ajout de la couleur yellow-500 au thème inline */
 }
 
 :root {
@@ -78,6 +82,10 @@
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
   --blueviolet: oklch(0.55 0.18 300); /* Ajout de la couleur BlueViolet au format oklch */
+  --red-500: oklch(0.62 0.21 27); /* Ajout de la couleur red-500 au format oklch */
+  --red-600: oklch(0.55 0.21 27); /* Ajout de la couleur red-600 au format oklch */
+  --orange-500: oklch(0.7 0.18 60); /* Ajout de la couleur orange-500 au format oklch */
+  --yellow-500: oklch(0.85 0.15 90); /* Ajout de la couleur yellow-500 au format oklch */
 }
 
 .dark {
@@ -113,6 +121,10 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
   --blueviolet: oklch(0.55 0.18 300); /* Ajout de la couleur BlueViolet pour le mode sombre au format oklch */
+  --red-500: oklch(0.62 0.21 27); /* Ajout de la couleur red-500 pour le mode sombre au format oklch */
+  --red-600: oklch(0.55 0.21 27); /* Ajout de la couleur red-600 pour le mode sombre au format oklch */
+  --orange-500: oklch(0.7 0.18 60); /* Ajout de la couleur orange-500 pour le mode sombre au format oklch */
+  --yellow-500: oklch(0.85 0.15 90); /* Ajout de la couleur yellow-500 pour le mode sombre au format oklch */
 }
 
 @layer base {

@@ -1,15 +1,11 @@
+// src/components/layout/Hero.tsx
 'use client'
 
 import { useState } from 'react'
-import { Dialog, DialogPanel } from '@headlessui/react'
-import { XMarkIcon, PlayCircleIcon, GlobeAltIcon, ShieldCheckIcon } from '@heroicons/react/24/outline'
-import { MdSupportAgent } from "react-icons/md";
-import { HiOutlineCurrencyDollar } from "react-icons/hi2";
+import { XMarkIcon, PlayCircleIcon } from '@heroicons/react/24/outline'
 import { AnimatePresence, motion } from 'framer-motion'
-import Image from 'next/image'
-import { MapsSearch } from '@/app/[locale]/(landing)/MapSearch';
 import Link from 'next/link';
-import HighlightText from './HighlightText';
+import HighlightText from './HighlightText'; // Correction de l'importation
 
 export default function Hero() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -19,11 +15,11 @@ export default function Hero() {
   const platforms = [
     { name: "Google Maps", color: "from-red-500 to-red-600", rotation: "-rotate-3" },
     { name: "Amazon", color: "from-orange-500 to-yellow-500", rotation: "rotate-2" },
-    { name: "+50 sources", color: "from-purple-500 to-indigo-600", rotation: "-rotate-1" }
+    { name: "+50 sources de plateformes", color: "from-blueviolet to-blueviolet/80", rotation: "-rotate-1" } // Utilisation de blueviolet
   ]
 
   return (
-    <div className="bg-gray-900">
+    <div className=""> {/* Suppression de la classe bg-gray-900 ici */}
       <div className="relative isolate pt-20">
         {/* Effet d'arrière-plan flou */}
         <div
@@ -35,21 +31,21 @@ export default function Hero() {
               clipPath:
                 'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
             }}
-            className="relative left-[calc(50%-11rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr  to-[#9089fc]  from-[#4F46E5]  opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+            className="relative left-[calc(50%-11rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-blueviolet/30 to-blueviolet/50 opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
           />
         </div>
 
         <div className="container mx-auto max-w-screen-xl px-4 md:px-6 py-20 sm:py-28 lg:py-32">
           <div className="text-center">
 
-            <h1 className="text-3xl font-bold tracking-tight text-balance text-white sm:text-5xl">
+            <h1 className="text-3xl font-bold tracking-tight text-balance text-gray-900 sm:text-5xl"> {/* Changement de text-white à text-gray-900 */}
               <HighlightText variant="fancy-slant" color="secondary">Automatisez</HighlightText> Votre Collecte de Données Stratégiques
             </h1>
 
-            {/* Sous-titre avec badges stylisés - CORRIGÉ */}
-            <div className="mt-8 text-xl text-pretty text-gray-300 sm:text-2xl">
+            {/* Sous-titre avec badges stylisés */}
+            <div className="mt-8 text-xl text-pretty text-gray-700 sm:text-2xl"> {/* Changement de text-gray-300 à text-gray-700 */}
               Extrayez automatiquement des données cruciales de{' '}
-              <span className="inline-flex items-center mx-2 space-x-2">
+              <span className="inline-flex flex-wrap items-center mx-2 space-x-2 space-y-2">
                 {platforms.map((platform, index) => (
                   <motion.span
                     key={platform.name}
@@ -75,7 +71,7 @@ export default function Hero() {
             <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6">
               <Link
                 href="/login"
-                className="rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 cursor-pointer transition-all px-8 py-4 font-semibold text-white shadow-lg hover:bg-indigo-500 hover:scale-105 duration-200 flex items-center justify-center gap-3 group"
+                className="rounded-xl bg-blueviolet cursor-pointer transition-all px-8 py-4 font-semibold text-white shadow-lg shadow-blueviolet/25 hover:shadow-blueviolet/40 hover:bg-blueviolet/80 duration-200 flex items-center justify-center gap-3 group"
               >
                 {/* Icône éclair */}
                 <svg 
@@ -97,21 +93,15 @@ export default function Hero() {
               {/* Bouton pour ouvrir la vidéo */}
               <button
                 onClick={() => setIsVideoDialogOpen(true)}
-                className="rounded-xl bg-white/10 backdrop-blur-sm px-8 py-4 cursor-pointer font-semibold text-white ring-1 ring-white/20 hover:ring-white/40 hover:bg-white/15 transition-all duration-300 flex items-center justify-center gap-3 group relative overflow-hidden"
+                className="rounded-xl bg-transparent backdrop-blur-sm px-8 py-4 cursor-pointer font-semibold text-blueviolet ring-1 ring-blueviolet hover:bg-blueviolet/10 hover:ring-blueviolet/80 transition-all duration-300 flex items-center justify-center gap-3 group relative overflow-hidden"
               >
                 {/* Effet de pulse animé */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blueviolet/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                 
-                <PlayCircleIcon className="w-6 h-6 group-hover:scale-110 transition-transform duration-200 relative z-10" />
+                <PlayCircleIcon className="w-6 h-6 text-blueviolet group-hover:scale-110 transition-transform duration-200 relative z-10" />
                 <span className="relative z-10">Voir la démo</span>
               </button>
             </div>
-
-            {/* Barre de recherche avec espacement */}
-            <div className="mt-16 mb-8">
-              <MapsSearch />
-            </div>
-           
           </div>
         </div>
 
@@ -125,7 +115,7 @@ export default function Hero() {
               clipPath:
                 'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
             }}
-            className="relative left-[calc(50%+3rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr  to-[#9089fc]  from-[#4F46E5]  opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+            className="relative left-[calc(50%+3rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-blueviolet/30 to-blueviolet/50 opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
           />
         </div>
       </div>

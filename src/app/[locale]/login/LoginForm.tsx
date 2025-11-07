@@ -64,21 +64,17 @@ export default function LoginForm() {
         return;
       }
 
-      // Récupérer l'utilisateur courant (route /api/user/me)
-      // Petit retry car la session peut ne pas être instantanée
       let userRes: Response | null = null;
       for (let i = 0; i < 4; i++) {
         userRes = await fetch("/api/user/me");
         if (userRes.ok) break;
-        await new Promise((r) => setTimeout(r, 300)); // 300ms
+        await new Promise((r) => setTimeout(r, 300));
       }
 
       if (!userRes || !userRes.ok) {
-        // Si la récupération de l'utilisateur échoue après plusieurs tentatives,
-        // on redirige quand même vers le tableau de bord par défaut.
         toast.success("Connexion réussie ! Redirection vers le tableau de bord...");
         router.push("/dashboard");
-        router.refresh(); // Rafraîchir après la redirection
+        router.refresh();
         return;
       }
 
@@ -90,7 +86,7 @@ export default function LoginForm() {
       } else {
         router.push("/dashboard");
       }
-      router.refresh(); // Rafraîchir après la redirection
+      router.refresh();
     } catch (err) {
       console.error("Login error:", err);
       toast.error("Une erreur inattendue est survenue. Veuillez réessayer.");
@@ -193,7 +189,7 @@ export default function LoginForm() {
                 variant="outline"
                 onClick={() => signIn('google')}
                 disabled={isLoginLoading}
-                className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blueviolet transition-colors duration-200"
+                className="w-full cursor-pointer flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blueviolet transition-colors duration-200"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24">
                   <path
@@ -296,7 +292,7 @@ export default function LoginForm() {
                 <Button
                   type="submit"
                   disabled={isLoginLoading}
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blueviolet hover:bg-blueviolet/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blueviolet transition-colors duration-200"
+                  className="group cursor-pointer relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blueviolet hover:bg-blueviolet/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blueviolet transition-colors duration-200"
                 >
                   {isLoginLoading ? (
                     <span className="flex items-center justify-center">
@@ -310,12 +306,17 @@ export default function LoginForm() {
               </div>
             </form>
 
-            {/* Note de sécurité */}
-            <div className="mt-8 text-center">
-              <p className="text-xs text-gray-500">
-                🔒 Connexion sécurisée • Vos données sont protégées
+            {/* Lien pour créer un compte */}
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-600">
+                Pas encore de compte ?{' '}
+                <Link href="/register" className="font-medium text-blueviolet hover:text-blueviolet/80">
+                  Créez un nouveau compte
+                </Link>
               </p>
             </div>
+
+            
           </div>
         </div>
       </div>
