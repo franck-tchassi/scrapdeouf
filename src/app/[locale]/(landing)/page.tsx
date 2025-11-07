@@ -159,7 +159,7 @@ export default function LandingPage() {
 
 
   return (
-    <div className="container mx-auto max-w-screen-xl px-4 md:px-6">
+    <div className="container mx-auto  px-4 md:px-6">
       <Hero />
       <ComparisonScrapdeouf />
       <ExportFeature />
