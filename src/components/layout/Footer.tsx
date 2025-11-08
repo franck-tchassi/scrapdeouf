@@ -7,16 +7,16 @@ import Image from 'next/image';
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white relative overflow-hidden">
+    <footer className="bg-white text-gray-900 relative overflow-hidden border-t border-gray-100"> {/* Fond blanc et texte sombre par défaut */}
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-0 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-0 left-0 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl"></div> {/* Couleurs plus claires */}
         <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/3 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-100/20 rounded-full blur-3xl"></div>
         
         {/* Grid Pattern */}
         <div 
-          className="absolute inset-0 opacity-[0.1]"
+          className="absolute inset-0 opacity-[0.05]"
           style={{
             backgroundImage: `linear-gradient(var(--grid-pattern) 1px, transparent 1px), linear-gradient(90deg, var(--grid-pattern) 1px, transparent 1px)`,
             backgroundSize: '50px 50px',
@@ -32,7 +32,7 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <div className="flex flex-col items-start mb-6">
               <div className="flex items-center mb-6">
-                <div className="w-14 h-14 bg-blueviolet rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/25 mr-4">
+                <div className="w-14 h-14 bg-blueviolet rounded-xl flex items-center justify-center shadow-lg shadow-blueviolet/25 mr-4">
                   <Image
                     src="/s-logo.png"
                     alt="Scrapdeouf"
@@ -43,23 +43,23 @@ export default function Footer() {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-3xl font-bold bg-gradient-to-r from-white to-blue-400 bg-clip-text text-transparent">
+                  <span className="text-3xl font-bold text-blueviolet"> {/* Couleur directe pour le nom de la marque */}
                     Scrapdeouf
                   </span>
-                  <span className="text-sm text-gray-400 mt-1">
+                  <span className="text-sm text-gray-600 mt-1"> {/* Texte plus sombre */}
                     Solutions Digitales Innovantes
                   </span>
                 </div>
               </div>
 
-              <p className="text-gray-300 text-lg mb-6 max-w-md leading-relaxed">
+              <p className="text-gray-700 text-lg mb-6 max-w-md leading-relaxed"> {/* Texte plus sombre */}
                 Votre partenaire pour des solutions digitales innovantes qui transforment votre business.
               </p>
 
               {/* Contact Info */}
               <div className="space-y-3 mb-6">
-                <div className="flex items-center gap-3 text-gray-300">
-                  <Mail className="w-5 h-5 text-blue-400" />
+                <div className="flex items-center gap-3 text-gray-700"> {/* Texte plus sombre */}
+                  <Mail className="w-5 h-5 text-blueviolet" /> {/* Icône blueviolet */}
                   <span className="text-lg font-medium">contact@scrapdeouf.com</span>
                 </div>
                 
@@ -69,27 +69,27 @@ export default function Footer() {
               <div className="flex gap-3">
                 <a 
                   href="#" 
-                  className="p-3 bg-white/5 rounded-xl border border-white/10 hover:bg-blue-500/20 hover:border-blue-500/30 hover:scale-105 transition-all duration-200 group"
+                  className="p-3 bg-gray-100 rounded-xl border border-gray-200 hover:bg-blueviolet/10 hover:border-blueviolet/20 hover:scale-105 transition-all duration-200 group"
                 >
-                  <Youtube className="h-5 w-5 text-gray-400 group-hover:text-white" />
+                  <Youtube className="h-5 w-5 text-gray-600 group-hover:text-blueviolet" />
                 </a>
                 <a 
                   href="#" 
-                  className="p-3 bg-white/5 rounded-xl border border-white/10 hover:bg-blue-600/20 hover:border-blue-600/30 hover:scale-105 transition-all duration-200 group"
+                  className="p-3 bg-gray-100 rounded-xl border border-gray-200 hover:bg-blueviolet/10 hover:border-blueviolet/20 hover:scale-105 transition-all duration-200 group"
                 >
-                  <Linkedin className="h-5 w-5 text-gray-400 group-hover:text-white" />
+                  <Linkedin className="h-5 w-5 text-gray-600 group-hover:text-blueviolet" />
                 </a>
                 <a 
                   href="#" 
-                  className="p-3 bg-white/5 rounded-xl border border-white/10 hover:bg-pink-500/20 hover:border-pink-500/30 hover:scale-105 transition-all duration-200 group"
+                  className="p-3 bg-gray-100 rounded-xl border border-gray-200 hover:bg-blueviolet/10 hover:border-blueviolet/20 hover:scale-105 transition-all duration-200 group"
                 >
-                  <Instagram className="h-5 w-5 text-gray-400 group-hover:text-white" />
+                  <Instagram className="h-5 w-5 text-gray-600 group-hover:text-blueviolet" />
                 </a>
                 <a 
                   href="#" 
-                  className="p-3 bg-white/5 rounded-xl border border-white/10 hover:bg-black/20 hover:border-gray-600 hover:scale-105 transition-all duration-200 group"
+                  className="p-3 bg-gray-100 rounded-xl border border-gray-200 hover:bg-blueviolet/10 hover:border-blueviolet/20 hover:scale-105 transition-all duration-200 group"
                 >
-                  <svg className="h-5 w-5 text-gray-400 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="h-5 w-5 text-gray-600 group-hover:text-blueviolet" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.50 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
                   </svg>
                 </a>
@@ -99,7 +99,7 @@ export default function Footer() {
 
           {/* Essentiels */}
           <div>
-            <h3 className="text-lg font-semibold mb-6 text-white bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            <h3 className="text-lg font-semibold mb-6 text-gray-900"> {/* Titre sombre */}
               Essentiels
             </h3>
             <ul className="space-y-4">
@@ -107,7 +107,7 @@ export default function Footer() {
                 <li key={item}>
                   <a 
                     href={`/${item.toLowerCase().replace(' ', '-')}`} 
-                    className="text-gray-400 hover:text-blue-400 transition-all duration-200 hover:translate-x-1 inline-block"
+                    className="text-gray-700 hover:text-blueviolet transition-all duration-200 hover:translate-x-1 inline-block"
                   >
                     {item}
                   </a>
@@ -118,7 +118,7 @@ export default function Footer() {
 
           {/* Ressources */}
           <div>
-            <h3 className="text-lg font-semibold mb-6 text-white bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            <h3 className="text-lg font-semibold mb-6 text-gray-900"> {/* Titre sombre */}
               Fichiers Email
             </h3>
             <ul className="space-y-4">
@@ -133,7 +133,7 @@ export default function Footer() {
                 <li key={item}>
                   <a 
                     href={`/fichier-email-${item.toLowerCase().replace(' ', '-').replace('è', 'e')}`} 
-                    className="text-gray-400 hover:text-purple-400 transition-all duration-200 hover:translate-x-1 inline-block text-sm"
+                    className="text-gray-700 hover:text-blueviolet transition-all duration-200 hover:translate-x-1 inline-block text-sm"
                   >
                     {item}
                   </a>
@@ -144,22 +144,22 @@ export default function Footer() {
 
           {/* Paiement & Sécurité */}
           <div>
-            <h3 className="text-lg font-semibold mb-6 text-white bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            <h3 className="text-lg font-semibold mb-6 text-gray-900"> {/* Titre sombre */}
               Sécurité
             </h3>
             <div className="space-y-4">
-              <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+              <div className="bg-gray-100 rounded-xl p-4 border border-gray-200"> {/* Fond clair, bordure claire */}
                 <div className="flex justify-center mb-3">
                   <Image
                     src="/card-stripe.png"
                     alt="Paiements sécurisés Stripe"
                     width={140}
                     height={42}
-                    className="h-12 w-auto object-contain"
+                    className="h-12 w-auto  object-contain"
                     priority
                   />
                 </div>
-                <p className="text-gray-400 text-xs text-center">
+                <p className="text-gray-600 text-xs text-center"> {/* Texte plus sombre */}
                   Transactions 100% sécurisées avec chiffrement SSL
                 </p>
               </div>
@@ -169,26 +169,26 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 pt-8">
+        <div className="border-t border-gray-200 pt-8"> {/* Bordure plus claire */}
           <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
-            <div className="flex flex-col sm:flex-row items-center gap-4 text-sm text-gray-400">
+            <div className="flex flex-col sm:flex-row items-center gap-4 text-sm text-gray-600"> {/* Texte plus sombre */}
               <span>© 2025 Scrapdeouf. Tous droits réservés.</span>
               <div className="flex gap-6">
                 <a 
                   href="/cgu" 
-                  className="hover:text-blue-400 transition-colors duration-200"
+                  className="hover:text-blueviolet transition-colors duration-200"
                 >
                   CGU
                 </a>
                 <a 
                   href="/confidentialite" 
-                  className="hover:text-blue-400 transition-colors duration-200"
+                  className="hover:text-blueviolet transition-colors duration-200"
                 >
                   Confidentialité
                 </a>
                 <a 
                   href="/cookies" 
-                  className="hover:text-blue-400 transition-colors duration-200"
+                  className="hover:text-blueviolet transition-colors duration-200"
                 >
                   Cookies
                 </a>
@@ -196,7 +196,7 @@ export default function Footer() {
             </div>
 
             {/* Note supplémentaire pour remplir l'espace */}
-            <div className="text-gray-500 text-sm">
+            <div className="text-gray-600 text-sm"> {/* Texte plus sombre */}
               Made with ❤️ in France
             </div>
           </div>

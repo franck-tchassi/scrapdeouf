@@ -95,8 +95,8 @@ export default function NewsletterSection() {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="absolute -inset-0.5 bg-blueviolet rounded-xl blur opacity-30"></div>
-            <div className="relative bg-white/80 backdrop-blur-sm rounded-lg border border-gray-200 p-6"> {/* Ajustement couleurs */}
+            <div className="absolute  bg-blueviolet rounded-xl blur opacity-30"></div>
+            <div className="relative bg-white/80 backdrop-blur-sm rounded-lg border border-gray-200  p-6"> {/* Ajustement couleurs */}
               <AnimatePresence mode="wait">
                 {isSubscribed ? (
                   <motion.div
