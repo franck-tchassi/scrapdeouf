@@ -5,13 +5,13 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Map, CreditCard, Settings, Menu, Clock, Plus, X, User, LogOut } from "lucide-react";
+import { LayoutDashboard, CreditCard, Settings, Menu, Clock, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import React from "react";
 import Image from "next/image";
 
-import { SafeUser } from "@/types"; // Import SafeUser type
+import { SafeUser } from "@/types";
 import { CreditsDisplay } from "./credits-display";
 import { UserNav } from "./user-nav";
 
@@ -56,11 +56,12 @@ const footerNavItems: NavItem[] = [
     },
 ];
 
+// Composant NavLinks pour le mobile
 const MobileNavLinks = ({ items, onItemClick }: { items: NavItem[]; onItemClick?: () => void }) => {
     const pathname = usePathname();
 
     return (
-        <nav className="grid gap-2">
+        <nav className="grid gap-1">
             {items.map((item) => {
                 const localeMatch = pathname.match(/^\/([a-z]{2})\//);
                 const currentLocale = localeMatch ? localeMatch[1] : "fr";
@@ -77,42 +78,28 @@ const MobileNavLinks = ({ items, onItemClick }: { items: NavItem[]; onItemClick?
                             href={localizedHref}
                             onClick={onItemClick}
                             className={cn(
-                                "group flex items-center gap-4  p-4 transition-all duration-300",
-                                "bg-gradient-to-r hover:from-emerald-500/20 hover:to-cyan-500/20 hover:scale-105",
+                                "flex items-center gap-4 p-3 rounded-lg transition-all duration-200",
                                 isActive 
-                                    ? "bg-gradient-to-r from-emerald-500 to-cyan-500 text-white  scale-105" 
-                                    : "bg-slate-800/50 text-slate-200",
-                                ""
+                                    ? "bg-blueviolet text-white shadow-md" 
+                                    : "text-gray-300 hover:bg-gray-800 hover:text-white",
                             )}
                         >
-                            <div className={cn(
-                                "flex items-center justify-center rounded-xl transition-all duration-300",
-                                isActive 
-                                    ? "bg-white text-emerald-600 scale-110" 
-                                    : "bg-slate-700 text-slate-300 group-hover:bg-slate-600 group-hover:text-white",
-                                "w-12 h-12"
-                            )}>
-                                <item.icon className="h-6 w-6" />
-                            </div>
-                            
-                            <div className="flex-1 flex items-center justify-between">
-                                <span className="font-semibold text-lg">{item.title}</span>
-                                {item.badge && (
-                                    <span className={cn(
-                                        "px-2 py-1 rounded-full text-xs font-bold",
-                                        isActive 
-                                            ? "bg-white text-emerald-600" 
-                                            : "bg-emerald-500 text-white"
-                                    )}>
-                                        {item.badge}
-                                    </span>
-                                )}
-                            </div>
-
-                            <div className={cn(
-                                "w-2 h-2 rounded-full transition-all duration-300",
-                                isActive ? "bg-white scale-125" : "bg-transparent"
+                            <item.icon className={cn(
+                                "h-5 w-5 transition-colors duration-200",
+                                isActive ? "text-white" : "text-gray-400 group-hover:text-white"
                             )} />
+                            
+                            <span className="font-medium text-base">{item.title}</span>
+                            {item.badge && (
+                                <span className={cn(
+                                    "ml-auto px-2 py-0.5 rounded-full text-xs font-bold",
+                                    isActive 
+                                        ? "bg-white text-blueviolet" 
+                                        : "bg-blueviolet text-white"
+                                )}>
+                                    {item.badge}
+                                </span>
+                            )}
                         </Link>
                     </SheetClose>
                 );
@@ -127,47 +114,47 @@ export function DesktopSidebarContent({ currentUser }: { currentUser: SafeUser }
     const locale = localeMatch ? localeMatch[1] : "fr";
 
     return (
-        <div className="flex h-full flex-col gap-2">
-            <div className="flex h-14 items-center border-b border-sidebar-border px-4 lg:h-[80px] lg:px-6">
+        <div className="flex h-full flex-col gap-2 bg-gray-900 text-white">
+            <div className="flex h-16 items-center border-b border-gray-800 px-4 lg:h-[80px] lg:px-6">
                 <Link 
                     href={`/${locale}/dashboard`}
-                    className="flex items-center font-semibold text-sidebar-foreground hover:text-sidebar-accent-foreground transition-all duration-300 group"
+                    className="flex items-center font-semibold text-white hover:text-blueviolet transition-all duration-300 group"
                 >
-                    <div className="w-11 h-11 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <div className="w-10 h-10 rounded-xl flex bg-blueviolet items-center justify-center group-hover:scale-105 transition-transform mr-2">
                         <Image
                             src="/s-logo.png"
                             alt="Scrapdeouf"
-                            width={20}
-                            height={20}
-                            className="h-9 w-9 brightness-0 invert"
+                            width={28}
+                            height={28}
+                            className="h-7 w-7 drop-shadow-lg filter brightness-0 invert" // Ajout de 'drop-shadow-lg filter'
+                            priority
                         />
                     </div>
-                    <span className="text-4xl text-white font-bold">crapdeouf</span>
+                    <span className="text-2xl font-bold">Scrapdeouf</span>
                 </Link>
             </div>
             <div className="flex-1 py-4 overflow-y-auto">
                 <NavLinks items={navItems} />
             </div>
-            <div className="mt-auto  py-4 border-t border-sidebar-border">
-                <div className=" mb-2">
+            <div className="mt-auto py-4 border-t border-gray-800 px-4">
+                <div className="mb-4">
                     <CreditsDisplay />
                 </div>
                 <NavLinks items={footerNavItems} />
-                <div className="mt-4 flex items-center ">
+                <div className="mt-4">
                    <UserNav currentUser={currentUser} /> 
                 </div>
             </div>
-            
         </div>
     );
 }
 
-// Composant NavLinks pour le desktop (conservé de votre version originale)
+// Composant NavLinks pour le desktop
 const NavLinks = ({ items }: { items: NavItem[] }) => {
     const pathname = usePathname();
 
     return (
-        <nav className="grid items-start px-2 text-base font-medium lg:px-4 gap-y-2"> 
+        <nav className="grid items-start px-2 text-base font-medium lg:px-4 gap-y-1"> 
             {items.map((item) => {
                 const localeMatch = pathname.match(/^\/([a-z]{2})\//);
                 const currentLocale = localeMatch ? localeMatch[1] : "fr";
@@ -182,14 +169,27 @@ const NavLinks = ({ items }: { items: NavItem[] }) => {
                         key={item.href}
                         href={localizedHref}
                         className={cn(
-                            "flex items-center gap-3 rounded-lg px-4 py-3 text-white transition-all",
-                            "bg-gradient-to-r hover:from-indigo-600/55 hover:to-purple-600/55 hover:text-white",
-                            isActive && "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg",
-                            "transition-colors duration-200 ease-in-out"
+                            "flex items-center gap-3 rounded-lg px-4 py-2.5 text-white transition-all duration-200",
+                            isActive 
+                                ? "bg-blueviolet shadow-md" 
+                                : "hover:bg-gray-800 hover:text-blueviolet",
                         )}
                     >
-                        <item.icon className="h-5 w-5" />
+                        <item.icon className={cn(
+                            "h-5 w-5 transition-colors duration-200",
+                            isActive ? "text-white" : "text-gray-400 group-hover:text-blueviolet"
+                        )} />
                         {item.title}
+                        {item.badge && (
+                            <span className={cn(
+                                "ml-auto px-2 py-0.5 rounded-full text-xs font-bold",
+                                isActive 
+                                    ? "bg-white text-blueviolet" 
+                                    : "bg-blueviolet text-white"
+                            )}>
+                                {item.badge}
+                            </span>
+                        )}
                     </Link>
                 );
             })}
@@ -216,7 +216,7 @@ export function MobileSidebarTrigger({ currentUser }: { currentUser: SafeUser })
                 <Button 
                     variant="outline" 
                     size="icon" 
-                    className="shrink-0 md:hidden bg-slate-800 border-slate-700 hover:bg-slate-700 hover:border-slate-600 transition-all duration-300 shadow-lg"
+                    className="shrink-0 md:hidden bg-gray-800 border-gray-700 hover:bg-gray-700 hover:border-gray-600 transition-all duration-300 shadow-lg"
                 >
                     <Menu className="h-6 w-6 text-white" />
                     <span className="sr-only">Ouvrir le menu de navigation</span>
@@ -224,73 +224,57 @@ export function MobileSidebarTrigger({ currentUser }: { currentUser: SafeUser })
             </SheetTrigger>
             <SheetContent 
                 side="left" 
-                className="flex flex-col w-80 p-0 overflow-hidden bg-gradient-to-b from-slate-900 to-slate-800 border-slate-700/50 shadow-2xl"
+                className="flex flex-col w-80 p-0 overflow-hidden bg-gray-900 border-gray-700/50 shadow-2xl [&>button]:hidden"
             >
                 {/* Header élégant avec bouton de fermeture */}
-                <div className="flex items-center justify-between p-6 border-b border-slate-700/50 bg-slate-800/50">
+                <div className="flex items-center justify-between p-4 border-b border-gray-800 bg-gray-900">
                     <Link
                         href={`/${locale}/dashboard`}
-                        className="flex items-center font-semibold text-sidebar-foreground hover:text-sidebar-accent-foreground transition-all duration-300 group"
+                        className="flex items-center font-semibold text-white hover:text-blueviolet transition-all duration-300 group"
                         onClick={handleItemClick}
                     >
-                        
-                        <div className="w-8 h-8 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
+                        <div className="w-10 h-10 bg-blueviolet rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform mr-2">
                             <Image
                                 src="/s-logo.png"
                                 alt="Scrapdeouf"
-                                width={20}
-                                height={20}
-                                className="h-9 w-9 brightness-0 invert"
+                                width={28}
+                                height={28}
+                                className="h-7 w-7 drop-shadow-lg filter brightness-0 invert" // Ajout de 'drop-shadow-lg filter'
+                                priority
                             />
                         </div>
-                        <span className="text-2xl text-white font-bold">crapdeouf</span>   
-                        
+                        <span className="text-xl font-bold">Scrapdeouf</span>   
                     </Link>
                     
                     <SheetClose asChild>
                         <Button
                             variant="ghost"
                             size="icon"
-                            className="h-10 w-10 rounded-xl bg-slate-700/50 hover:bg-slate-600 border border-slate-600/50 transition-all duration-300"
+                            className="h-9 w-9 rounded-md bg-gray-800 hover:bg-gray-700 border border-gray-700 transition-all duration-300"
                             data-sheet-close="true"
                         >
-                            <X className="h-5 w-5 text-slate-300" />
+                            <X className="h-5 w-5 text-gray-300" />
                             <span className="sr-only">Fermer le menu</span>
                         </Button>
                     </SheetClose>
                 </div>
 
-                
                 {/* Navigation principale */}
                 <div className="flex-1 py-6 px-4 overflow-y-auto">
                     <div className="space-y-3">
-                        
-                        <NavLinks items={navItems}  />
+                        <MobileNavLinks items={navItems} onItemClick={handleItemClick} />
                     </div>
                 </div>
 
                 {/* Footer avec séparation visuelle */}
-                <div className="mt-auto border-t border-slate-700/50 bg-slate-800/30">
-                    <div className="p-4 space-y-3">
-                        
+                <div className="mt-auto border-t border-gray-800 bg-gray-900 p-4">
+                    <div className="space-y-3">
                         <CreditsDisplay />
                         <MobileNavLinks items={footerNavItems} onItemClick={handleItemClick} />
                         
-                        {/* Bouton de déconnexion */}
-                        <SheetClose asChild>
-                            <button 
-                                className="w-full flex items-center gap-4 p-4  text-slate-300 hover:text-white bg-slate-800/50 hover:bg-red-500/20 transition-all duration-300 group"
-                                onClick={handleItemClick}
-                            >
-                                <div className="w-12 h-12 rounded-xl bg-slate-700 flex items-center justify-center group-hover:bg-red-500/30 transition-all duration-300">
-                                    <LogOut className="h-6 w-6" />
-                                </div>
-                                <span className="font-semibold text-lg">Déconnexion</span>
-                            </button>
-                        </SheetClose>
+                        {/* Intégration du UserNav pour mobile */}
+                        <UserNav currentUser={currentUser} />
                     </div>
-
-                   
                 </div>
             </SheetContent>
         </Sheet>

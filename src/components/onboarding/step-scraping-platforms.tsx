@@ -1,3 +1,5 @@
+//components/onboarding/step-scraping-platforms.tsx
+
 "use client";
 
 import React from "react";

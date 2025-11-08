@@ -1,8 +1,9 @@
 //(protedid)/dashboard/dashboard-overview
+
 "use client";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { DollarSign, Users, CreditCard, Activity, Play, ListChecks, Sparkles, ArrowRight } from "lucide-react";
+import { DollarSign, Users, CreditCard, Activity, Play, ListChecks, Sparkles } from "lucide-react"; // Suppression des icônes spécifiques aux actions rapides
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -21,17 +22,17 @@ export default function DashboardOverview({ currentUser }: DashboardOverviewProp
   const creditsRemaining = (currentUser?.creditsLimit || 0) - (currentUser?.creditsUsed || 0);
 
   return (
-    <div className="space-y-12">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12"> {/* Conteneur principal responsive */}
       {/* En-tête avec message de bienvenue */}
-      <div className="space-y-2">
-        <h2 className="text-5xl font-bold tracking-tight">Tableau de bord</h2>
-        <p className="text-muted-foreground text-lg">
+      <div className="space-y-2 mb-10 sm:mb-12">
+        <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900">Tableau de bord</h2>
+        <p className="text-muted-foreground text-lg sm:text-xl">
           Content de vous revoir <HighlightText variant="fancy-slant" color="secondary">{userName}</HighlightText> 👋
         </p>
       </div>
 
       {/* Section des statistiques clés */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-10 sm:mb-12"> {/* Grille responsive pour les cartes */}
         <Card className="bg-white/80 backdrop-blur-sm border-blue-200/50 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
@@ -86,33 +87,41 @@ export default function DashboardOverview({ currentUser }: DashboardOverviewProp
         </Card>
       </div>
 
-      {/* Section du graphique et des dernières extractions */}
-      <div className="grid gap-6 md:grid-cols-1"> {/* Changé en 1 colonne pour le graphique */}
+      {/* Section du graphique (maintenant en pleine largeur) */}
+      <div className="mb-10 sm:mb-12"> {/* Suppression de la grille pour cette section */}
         {/* Graphique d'utilisation des crédits */}
-        <div className="col-span-full"> {/* Le graphique prend toute la largeur */}
-          <CreditUsageChart />
-        </div>
-
-        {/* Placeholder pour les dernières extractions (peut être déplacé ou remplacé) */}
-        <Card className="bg-white/80 backdrop-blur-sm border-gray-200/50 shadow-sm col-span-full">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg font-semibold flex items-center gap-2">
-              <Activity className="h-5 w-5 text-gray-600" />
-              Dernières Extractions
-            </CardTitle>
+        <Card className="bg-white/80 backdrop-blur-sm border-gray-200/50 shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold">Utilisation des Crédits</CardTitle>
             <CardDescription>
-              Aperçu de vos activités de scraping récentes.
+              Aperçu de votre consommation de crédits au fil du temps.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-center text-muted-foreground py-8">
-              <p>Aucune extraction récente à afficher pour le moment.</p>
-              <p className="text-sm mt-2">Lancez votre première extraction pour la voir apparaître ici !</p>
-            </div>
-            {/* Ici, vous pourriez ajouter un tableau ou une liste des dernières extractions */}
+            <CreditUsageChart />
           </CardContent>
         </Card>
       </div>
+
+      {/* Section des dernières extractions */}
+      <Card className="bg-white/80 backdrop-blur-sm border-gray-200/50 shadow-sm">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg font-semibold flex items-center gap-2">
+            <Activity className="h-5 w-5 text-gray-600" />
+            Dernières Extractions
+          </CardTitle>
+          <CardDescription>
+            Aperçu de vos activités de scraping récentes.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center text-muted-foreground py-8">
+            <p>Aucune extraction récente à afficher pour le moment.</p>
+            <p className="text-sm mt-2">Lancez votre première extraction pour la voir apparaître ici !</p>
+          </div>
+          {/* Ici, vous pourriez ajouter un tableau ou une liste des dernières extractions */}
+        </CardContent>
+      </Card>
     </div>
   );
 }

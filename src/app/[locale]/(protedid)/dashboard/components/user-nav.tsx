@@ -1,12 +1,5 @@
 "use client";
 
-import {
-  IconCreditCard,
-  IconDotsVertical,
-  IconLogout,
-  IconNotification,
-  IconUserCircle,
-} from "@tabler/icons-react";
 import { useEffect } from "react";
 
 import {
@@ -23,15 +16,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from "@/components/ui/sidebar";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { SafeUser } from "@/types";
+import { useIsMobile } from "@/hooks/use-mobile"; // Importation du hook useIsMobile
+import { User, CreditCard, Bell, LogOut, MoreVertical } from "lucide-react"; // Icônes Lucide React
 
 interface UserNavProps {
   currentUser: SafeUser | null;
@@ -39,6 +28,7 @@ interface UserNavProps {
 
 export function UserNav({ currentUser }: UserNavProps) {
   const router = useRouter();
+  const isMobile = useIsMobile(); // Utilisation du hook useIsMobile
 
   useEffect(() => {
     if (!currentUser) {
@@ -59,7 +49,7 @@ export function UserNav({ currentUser }: UserNavProps) {
   };
 
   if (!currentUser) {
-    return <div className="h-12 w-12"></div>;
+    return <div className="h-12 w-12"></div>; // Placeholder si aucun utilisateur
   }
 
   const userInitials = currentUser.name
@@ -71,59 +61,73 @@ export function UserNav({ currentUser }: UserNavProps) {
     : currentUser.email
       ? currentUser.email[0].toUpperCase()
       : "U";
-  const { isMobile } = useSidebar()
 
   return (
-    <SidebarMenu>
-      <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger className="!border-none !bg-none !shadow-none" asChild>
-            <SidebarMenuButton
-              size="lg"
-              className="!bg-none data-[state=open]:text-sidebar-accent-foreground hover:bg-transparent border-transparent hover:bg-none !hover:bg-transparent !hover:bg-none"
-            >
-              <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={currentUser.image ?? undefined} alt={currentUser.name || "Avatar"} />
-                <AvatarFallback className="rounded-lg">{userInitials}</AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate text-white font-medium">{currentUser.name || "Utilisateur"}</span>
-                <span className="text-muted-foreground truncate text-xs">
-                  {currentUser.email}
-                </span>
-              </div>
-              <IconDotsVertical className="ml-auto text-white size-4" />
-            </SidebarMenuButton>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "right"}
-            align="end"
-            sideOffset={4}
-          >
-            <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={currentUser.image ?? undefined} alt={currentUser.name || "Avatar"} />
-                  <AvatarFallback className="rounded-lg">{userInitials}</AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{currentUser.name || "Utilisateur"}</span>
-                  <span className="text-muted-foreground truncate text-xs">
-                    {currentUser.email}
-                  </span>
-                </div>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          className="flex w-full items-center gap-3 rounded-lg p-3 transition-all duration-200 
+                     text-white hover:bg-gray-800 hover:text-blueviolet group" // Style du bouton déclencheur
+        >
+          <Avatar className="h-9 w-9 rounded-full border border-gray-700"> {/* Avatar plus grand et arrondi */}
+            <AvatarImage src={currentUser.image ?? undefined} alt={currentUser.name || "Avatar"} />
+            <AvatarFallback className="rounded-full bg-blueviolet/20 text-blueviolet-foreground font-semibold">
+              {userInitials}
+            </AvatarFallback>
+          </Avatar>
+          <div className="grid flex-1 text-left text-sm leading-tight">
+            <span className="truncate text-white font-medium">{currentUser.name || "Utilisateur"}</span>
+            <span className="text-gray-400 truncate text-xs">
+              {currentUser.email}
+            </span>
+          </div>
+          <MoreVertical className="ml-auto text-gray-400 size-4 group-hover:text-blueviolet" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        className="w-56 rounded-lg bg-gray-800 border-gray-700 text-white shadow-lg" // Contenu du menu déroulant plus sombre
+        side={isMobile ? "top" : "right"} // Positionnement pour mobile vs desktop
+        align="end"
+        sideOffset={8} // Décalage augmenté pour un meilleur espacement
+      >
+        <DropdownMenuLabel className="p-2 font-normal">
+          <div className="flex items-center gap-2 text-left text-sm">
+            <Avatar className="h-8 w-8 rounded-full border border-gray-600">
+              <AvatarImage src={currentUser.image ?? undefined} alt={currentUser.name || "Avatar"} />
+              <AvatarFallback className="rounded-full bg-blueviolet/20 text-blueviolet-foreground font-semibold">
+                {userInitials}
+              </AvatarFallback>
+            </Avatar>
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-medium">{currentUser.name || "Utilisateur"}</span>
+              <span className="text-gray-400 truncate text-xs">
+                {currentUser.email}
+              </span>
+            </div>
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator className="bg-gray-700" />
 
-            <DropdownMenuItem onClick={handleLogout} className="text-red-600 hover:!text-red-700">
-              <IconLogout className="mr-2 size-4" />
-              Déconnexion
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </SidebarMenuItem>
-    </SidebarMenu>
-  )
+        <DropdownMenuGroup>
+          <DropdownMenuItem onClick={() => router.push("/dashboard/profile")} className="hover:bg-gray-700 cursor-pointer">
+            <User className="mr-2 size-4 text-gray-400" />
+            Profil
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push("/dashboard/subscriptions")} className="hover:bg-gray-700 cursor-pointer">
+            <CreditCard className="mr-2 size-4 text-gray-400" />
+            Abonnement
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push("/dashboard/notifications")} className="hover:bg-gray-700 cursor-pointer">
+            <Bell className="mr-2 size-4 text-gray-400" />
+            Notifications
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator className="bg-gray-700" />
+        <DropdownMenuItem onClick={handleLogout} className="text-red-500 hover:!bg-red-500/20 hover:!text-red-400 cursor-pointer">
+          <LogOut className="mr-2 size-4" />
+          Déconnexion
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }

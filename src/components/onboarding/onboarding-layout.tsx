@@ -1,3 +1,5 @@
+//components/onboarding/onboarding-layout.tsx
+
 "use client";
 
 import React from "react";

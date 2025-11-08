@@ -1,3 +1,5 @@
+//components/onboarding/step-discovery-source.tsx
+
 "use client";
 
 import React from "react";

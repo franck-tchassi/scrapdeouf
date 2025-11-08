@@ -1,3 +1,5 @@
+//components/onboarding/step-company-info.tsx
+
 "use client";
 
 import React from "react";

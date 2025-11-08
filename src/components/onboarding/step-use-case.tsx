@@ -1,3 +1,5 @@
+//components/onboarding/step-use-case.tsx
+
 "use client";
 
 import React from "react";
