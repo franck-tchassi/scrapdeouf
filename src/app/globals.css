@@ -42,11 +42,11 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --color-blueviolet: var(--blueviolet);
-  --color-red-500: var(--red-500);
-  --color-red-600: var(--red-600);
-  --color-orange-500: var(--orange-500);
-  --color-yellow-500: var(--yellow-500);
-  --color-orange-yellow-gradient: linear-gradient(to right, var(--orange-500), var(--yellow-500)); /* Nouvelle variable de dégradé */
+  --color-red-500: var(--red-500); /* Ajout de la couleur red-500 au thème inline */
+  --color-red-600: var(--red-600); /* Ajout de la couleur red-600 au thème inline */
+  --color-orange-500: var(--orange-500); /* Ajout de la couleur orange-500 au thème inline */
+  --color-yellow-500: var(--yellow-500); /* Ajout de la couleur yellow-500 au thème inline */
+  --color-grid-pattern: var(--grid-pattern); /* Ajout de la variable pour le motif de grille */
 }
 
 :root {
@@ -82,12 +82,12 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
-  --blueviolet: oklch(0.55 0.18 300);
-  --red-500: oklch(0.62 0.21 27);
-  --red-600: oklch(0.55 0.21 27);
-  --orange-500: oklch(0.7 0.18 60);
-  --yellow-500: oklch(0.85 0.15 90);
-  --orange-yellow-gradient: linear-gradient(to right, oklch(0.7 0.18 60), oklch(0.85 0.15 90)); /* Nouvelle variable de dégradé */
+  --blueviolet: oklch(0.55 0.18 300); /* Ajout de la couleur BlueViolet au format oklch */
+  --red-500: oklch(0.62 0.21 27); /* Ajout de la couleur red-500 au format oklch */
+  --red-600: oklch(0.55 0.21 27); /* Ajout de la couleur red-600 au format oklch */
+  --orange-500: oklch(0.7 0.18 60); /* Ajout de la couleur orange-500 au format oklch */
+  --yellow-500: oklch(0.85 0.15 90); /* Ajout de la couleur yellow-500 au format oklch */
+  --grid-pattern: rgba(138, 43, 226, 1); /* Définition de la couleur du motif de grille en RGBA */
 }
 
 .dark {
@@ -122,12 +122,12 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
-  --blueviolet: oklch(0.55 0.18 300);
-  --red-500: oklch(0.62 0.21 27);
-  --red-600: oklch(0.55 0.21 27);
-  --orange-500: oklch(0.7 0.18 60);
-  --yellow-500: oklch(0.85 0.15 90);
-  --orange-yellow-gradient: linear-gradient(to right, oklch(0.7 0.18 60), oklch(0.85 0.15 90)); /* Nouvelle variable de dégradé */
+  --blueviolet: oklch(0.55 0.18 300); /* Ajout de la couleur BlueViolet pour le mode sombre au format oklch */
+  --red-500: oklch(0.62 0.21 27); /* Ajout de la couleur red-500 pour le mode sombre au format oklch */
+  --red-600: oklch(0.55 0.21 27); /* Ajout de la couleur red-600 pour le mode sombre au format oklch */
+  --orange-500: oklch(0.7 0.18 60); /* Ajout de la couleur orange-500 pour le mode sombre au format oklch */
+  --yellow-500: oklch(0.85 0.15 90); /* Ajout de la couleur yellow-500 pour le mode sombre au format oklch */
+  --grid-pattern: rgba(138, 43, 226, 1); /* Définition de la couleur du motif de grille en RGBA pour le mode sombre */
 }
 
 @layer base {

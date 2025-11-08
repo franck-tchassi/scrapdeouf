@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 export default function Footer() {
   return (
-    <footer className="bg-  text-white relative overflow-hidden">
+    <footer className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-0 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl"></div>
@@ -16,9 +16,9 @@ export default function Footer() {
         
         {/* Grid Pattern */}
         <div 
-          className="absolute inset-0 opacity-[0.1]" 
+          className="absolute inset-0 opacity-[0.1]"
           style={{
-            backgroundImage: `linear-gradient(oklch(0.55 0.18 300) 1px, transparent 1px), linear-gradient(90deg, oklch(0.55 0.18 300) 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(var(--grid-pattern) 1px, transparent 1px), linear-gradient(90deg, var(--grid-pattern) 1px, transparent 1px)`,
             backgroundSize: '50px 50px',
           }}
         />
