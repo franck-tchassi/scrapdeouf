@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Star } from "lucide-react";
 
@@ -12,7 +14,7 @@ export default function SocialProof() {
 
   return (
     <div className="relative">
-      <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 lg:p-6 shadow-2xl">
+      <div className="relative bg-gray-800 backdrop-blur-xl border border-gray-700 rounded-2xl p-4 lg:p-6 shadow-2xl">
         <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-4 lg:gap-6">
           
           {/* Section Avatars - Responsive */}
@@ -30,7 +32,7 @@ export default function SocialProof() {
                     width={48}
                     height={48}
                     quality={100}
-                    className="rounded-full border-2 border-white/20 shadow-lg object-cover w-10 h-10 lg:w-12 lg:h-12"
+                    className="rounded-full border-2 border-gray-600 shadow-lg object-cover w-10 h-10 lg:w-12 lg:h-12"
                     priority={i < 2} // Priorité sur les 2 premières images
                   />
                 </div>
@@ -39,7 +41,7 @@ export default function SocialProof() {
           </div>
 
           {/* Séparateur - Desktop seulement */}
-          <div className="hidden lg:block w-px h-12 bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+          <div className="hidden lg:block w-px h-12 bg-gradient-to-b from-transparent via-gray-700 to-transparent"></div>
 
           {/* Section Étoiles - Responsive */}
           <div className="flex flex-col sm:flex-row items-center gap-3 lg:gap-4 text-center sm:text-left">

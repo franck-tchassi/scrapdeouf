@@ -61,7 +61,7 @@ const ComparisonScrapdeouf = () => {
           
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
             Ne perdez plus votre <HighlightText variant="fancy-slant" color="secondary">temps</HighlightText>
-            <br className="hidden sm:inline" />
+            <br className="hidden sm:inline" /> {" "}
             <span className="text-gray-700">automatisez votre collecte de données</span>
           </h2>
           <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">

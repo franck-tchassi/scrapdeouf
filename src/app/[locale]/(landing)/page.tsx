@@ -17,6 +17,7 @@ import SecurityCompliance from "@/components/layout/SecurityCompliance";
 import ComparisonScrapdeouf from "@/components/layout/ComparisonScrapdeouf";
 import ExportFeature from "@/components/layout/ExportFeature";
 import AutomationFeature from "@/components/layout/AutomationFeature";
+import NewsletterSection from "@/components/layout/NewsletterSection";
 
 
 
@@ -159,7 +160,7 @@ export default function LandingPage() {
 
 
   return (
-    <div className="container mx-auto  px-4 md:px-6">
+    <div className="min-h-screen font-[family-name:var(--font-geist-sans)]">
       <Hero />
       <ComparisonScrapdeouf />
       <ExportFeature />
@@ -188,7 +189,7 @@ export default function LandingPage() {
           
         </Button>
       )}
-      {/** <ChatbotWidget open={isChatOpen} onClose={() => setIsChatOpen(false)} /> **/}
+      <NewsletterSection />
 
     </div>
   );
