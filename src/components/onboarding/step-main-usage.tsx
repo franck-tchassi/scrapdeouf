@@ -7,7 +7,7 @@ import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox"; // Import Checkbox
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
-import { OnboardingFormData } from "@/app/[locale]/onboarding/page";
+import { OnboardingFormData } from "@/lib/onboardingSchema";
 
 
 interface StepMainUsageProps {

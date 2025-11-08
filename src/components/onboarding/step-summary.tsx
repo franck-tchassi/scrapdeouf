@@ -5,7 +5,7 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { OnboardingFormData } from "@/app/[locale]/onboarding/page";
+import { OnboardingFormData } from "@/lib/onboardingSchema";
 
 
 interface StepSummaryProps {
